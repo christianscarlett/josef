@@ -2,6 +2,7 @@ import ControlRow from "./ControlRow";
 import PaletteController, {
   OnPaletteIndexUpdated,
   OnNumSquaresUpdated,
+  OnRandomizeClicked,
 } from "./PaletteController";
 import SpacingController, { OnSpacingUpdated } from "./SpacingController";
 
@@ -13,6 +14,7 @@ interface ControlsProps {
   onPaletteIndexUpdated: OnPaletteIndexUpdated;
   onVerticalSpacingUpdated: OnSpacingUpdated;
   onHorizontalSpacingUpdated: OnSpacingUpdated;
+  onRandomizeClicked: OnRandomizeClicked;
 }
 
 function Controls(props: ControlsProps) {
@@ -24,6 +26,7 @@ function Controls(props: ControlsProps) {
     onPaletteIndexUpdated,
     onVerticalSpacingUpdated,
     onHorizontalSpacingUpdated,
+    onRandomizeClicked,
   } = props;
 
   return (
@@ -35,6 +38,7 @@ function Controls(props: ControlsProps) {
             palette={palette}
             onPaletteIndexUpdated={onPaletteIndexUpdated}
             onNumSquaresUpdated={onNumSquaresUpdated}
+            onRandomizeClicked={onRandomizeClicked}
           />
         }
       />

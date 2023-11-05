@@ -1,10 +1,12 @@
 import { Button, ColorPicker } from "antd";
 import { ReactNode } from "react";
+import { generateRandomColor } from "../model/Model";
 
 interface PaletteControllerProps {
   palette: string[];
   onPaletteIndexUpdated: OnPaletteIndexUpdated;
   onNumSquaresUpdated: OnNumSquaresUpdated;
+  onRandomizeClicked: OnRandomizeClicked;
 }
 
 export interface OnPaletteIndexUpdated {
@@ -15,8 +17,17 @@ export interface OnNumSquaresUpdated {
   (numSquares: number): void;
 }
 
+export interface OnRandomizeClicked {
+  (): void;
+}
+
 function PaletteController(props: PaletteControllerProps) {
-  const { palette, onPaletteIndexUpdated, onNumSquaresUpdated } = props;
+  const {
+    palette,
+    onPaletteIndexUpdated,
+    onNumSquaresUpdated,
+    onRandomizeClicked,
+  } = props;
 
   const pickers: ReactNode[] = palette.map((color, i) => {
     return (
@@ -31,10 +42,11 @@ function PaletteController(props: PaletteControllerProps) {
   });
 
   return (
-    <div className="flex flex-col">
-      <div className="flex">
+    <div className="flex flex-col items-center w-full">
+      <div className="flex mb-2">
         {pickers}
         <Button
+          className="bg-gray-100"
           type="default"
           disabled={palette.length <= 1}
           onClick={() => {
@@ -45,12 +57,20 @@ function PaletteController(props: PaletteControllerProps) {
           -
         </Button>
         <Button
+          className="bg-gray-100"
           type="default"
           onClick={() => onNumSquaresUpdated(palette.length + 1)}
         >
           +
         </Button>
       </div>
+      <Button
+        className="bg-gray-100"
+        type="default"
+        onClick={() => onRandomizeClicked()}
+      >
+        Randomize
+      </Button>
     </div>
   );
 }

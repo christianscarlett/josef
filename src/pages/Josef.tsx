@@ -39,6 +39,9 @@ function Josef() {
         onHorizontalSpacingUpdated={(n) => {
           setHorizontalSpacing(n);
         }}
+        onRandomizeClicked={() => {
+          setPalette(generateRandomPalette(palette.length));
+        }}
       />
     </div>
   );
