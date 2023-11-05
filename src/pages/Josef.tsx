@@ -10,8 +10,8 @@ function Josef() {
   const [horizontalSpacing, setHorizontalSpacing] = useState<number>(1 / 2);
 
   return (
-    <div className="Josef h-screen flex flex-col items-center justify-center">
-      <h1 className="text-2xl mb-10">
+    <div className="Josef min-h-screen flex flex-col items-center justify-center">
+      <h1 className="text-2xl mb-10 mt-10">
         Josef Albers "Homage to the Square" Generator
       </h1>
       <div className="mb-10">
