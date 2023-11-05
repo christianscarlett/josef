@@ -1,4 +1,3 @@
-import { InputNumber } from "antd";
 import ControlRow from "./ControlRow";
 import PaletteController, {
   OnPaletteIndexUpdated,

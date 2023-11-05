@@ -57,7 +57,7 @@ function Square(props: SquareProps) {
   return (
     <canvas
       ref={canvasRef}
-      className="border-solid border-2"
+      className="border-solid border-2 drop-shadow-xl"
       width="500"
       height="500"
     ></canvas>

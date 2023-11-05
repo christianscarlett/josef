@@ -39,7 +39,10 @@ function SpacingController(props: SpacingControllerProps) {
         }}
         min={MIN_SPACING}
         max={MAX_SPACING}
-        step={0.01}
+        step={0.001}
+        tooltip={{
+          placement: "bottom",
+        }}
       />{" "}
     </div>
   );

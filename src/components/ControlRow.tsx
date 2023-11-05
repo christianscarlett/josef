@@ -1,4 +1,3 @@
-import { Divider } from "antd";
 import { ReactNode } from "react";
 
 interface ControlRowProps {
@@ -8,9 +7,9 @@ interface ControlRowProps {
 
 function ControlRow(props: ControlRowProps) {
   return (
-    <div className="flex items-center justify-center mb-5">
+    <div className="flex items-center justify-center bg-white/30 p-3 rounded backdrop-blur-sm drop-shadow-2xl mb-5 w-full">
       <h3>{props.title}</h3>
-      <Divider className="bg-black" type="vertical" />
+      <div className="border-solid border-l border-black self-stretch ml-3 mr-3"></div>
       {props.controller}
     </div>
   );
