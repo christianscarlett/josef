@@ -1,6 +1,5 @@
 import { Button, ColorPicker } from "antd";
 import { ReactNode } from "react";
-import { generateRandomColor } from "../model/Model";
 
 interface PaletteControllerProps {
   palette: string[];

@@ -68,9 +68,10 @@ function SpacingController(props: SpacingControllerProps) {
 
   const friendlyRatio = getFriendlyRatio(spacing);
   return (
-    <div className="w-full">
-      <p>{friendlyRatio}</p>
+    <div className="flex flex-col items-center w-full">
+      <p className="mb-2">{friendlyRatio}</p>
       <Segmented
+        className="mb-2"
         value={spacingOption}
         options={[
           SpacingOption.OneToThree,
@@ -85,7 +86,7 @@ function SpacingController(props: SpacingControllerProps) {
           onSpacingUpdated(spacingOptionToSpacing(v, spacing));
         }}
       />
-      <div className="flex">
+      <div className="flex self-stretch">
         <div className="w-full">
           <Slider
             value={spacing}
