@@ -32,7 +32,10 @@ const getFriendlyRatio = function (spacing: number): string {
   return roundFriendlyNumber(1 / (1 - spacing) - 1) + " : 1";
 };
 
-const spacingOptionToSpacing = function (spacingOption: string): number {
+const spacingOptionToSpacing = function (
+  spacingOption: string,
+  default_: number
+): number {
   switch (spacingOption) {
     case SpacingOption.OneToThree:
       return 1 / 4;
@@ -42,16 +45,14 @@ const spacingOptionToSpacing = function (spacingOption: string): number {
       return 1 - 1 / 1.618;
     case SpacingOption.Even:
       return 1 / 2;
-    case SpacingOption.Custom:
-      return 1 / 2;
     default:
-      return 1 / 2;
+      return default_;
   }
 };
 
 const spacingToSpacingOption = function (spacing: number): SpacingOption {
   for (const value of Object.values(SpacingOption)) {
-    if (Math.abs(spacing - spacingOptionToSpacing(value)) < 0.0001) {
+    if (Math.abs(spacing - spacingOptionToSpacing(value, spacing)) < 0.0001) {
       return value;
     }
   }
@@ -81,7 +82,7 @@ function SpacingController(props: SpacingControllerProps) {
         onChange={(value) => {
           const v = value as unknown as SpacingOption;
           setSpacingOption(v);
-          onSpacingUpdated(spacingOptionToSpacing(v));
+          onSpacingUpdated(spacingOptionToSpacing(v, spacing));
         }}
       />
       <div className="flex">
