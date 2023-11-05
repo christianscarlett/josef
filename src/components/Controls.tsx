@@ -16,14 +16,39 @@ function ControlRow(props: ControlRowProps) {
   );
 }
 
-function Controls() {
+interface ControlsProps {
+  numSquares: number;
+  onNumSquaresUpdated: OnNumSquaresUpdatedFunction;
+}
+
+interface OnNumSquaresUpdatedFunction {
+  (numSquares: number): void;
+}
+
+function Controls(props: ControlsProps) {
+  const { numSquares, onNumSquaresUpdated } = props;
+
+  let inputNumberValue = 1;
+  if (numSquares > inputNumberValue) {
+    inputNumberValue = numSquares;
+  }
+
   return (
     <div className="flex flex-col items-start">
       <ControlRow
         title="Squares"
         controller={
           <>
-            <InputNumber />
+            <InputNumber
+              value={inputNumberValue}
+              min={1}
+              onChange={(n) => {
+                if (n == null) {
+                  n = inputNumberValue;
+                }
+                onNumSquaresUpdated(n);
+              }}
+            />
           </>
         }
       />

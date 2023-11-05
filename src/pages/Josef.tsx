@@ -1,9 +1,11 @@
-import Title from "antd/es/typography/Title";
+import { useState } from "react";
 import Controls from "../components/Controls";
 import Square from "../components/Square";
 import "./Josef.css";
 
 function Josef() {
+  const [numSquares, setNumSquares] = useState<number>(4);
+  console.log(numSquares);
   return (
     <div className="Josef h-screen flex flex-col items-center justify-center">
       <h1 className="text-2xl mb-10">
@@ -12,7 +14,12 @@ function Josef() {
       <div className="mb-10">
         <Square />
       </div>
-      <Controls />
+      <Controls
+        numSquares={numSquares}
+        onNumSquaresUpdated={(n) => {
+          setNumSquares(n);
+        }}
+      />
     </div>
   );
 }
