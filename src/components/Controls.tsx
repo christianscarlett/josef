@@ -5,16 +5,21 @@ import PaletteController, {
   OnRandomizeClicked,
 } from "./PaletteController";
 import SpacingController, { OnSpacingUpdated } from "./SpacingController";
+import SquareSizeController, {
+  onSquareSizeUpdated,
+} from "./SquareSizeController";
 
 interface ControlsProps {
   palette: string[];
   verticalSpacing: number;
   horizontalSpacing: number;
+  squareSize: number;
   onNumSquaresUpdated: OnNumSquaresUpdated;
   onPaletteIndexUpdated: OnPaletteIndexUpdated;
   onVerticalSpacingUpdated: OnSpacingUpdated;
   onHorizontalSpacingUpdated: OnSpacingUpdated;
   onRandomizeClicked: OnRandomizeClicked;
+  onSquareSizeUpdated: onSquareSizeUpdated;
 }
 
 function Controls(props: ControlsProps) {
@@ -22,11 +27,13 @@ function Controls(props: ControlsProps) {
     palette,
     verticalSpacing,
     horizontalSpacing,
+    squareSize,
     onNumSquaresUpdated,
     onPaletteIndexUpdated,
     onVerticalSpacingUpdated,
     onHorizontalSpacingUpdated,
     onRandomizeClicked,
+    onSquareSizeUpdated,
   } = props;
 
   return (
@@ -57,6 +64,15 @@ function Controls(props: ControlsProps) {
           <SpacingController
             spacing={horizontalSpacing}
             onSpacingUpdated={onHorizontalSpacingUpdated}
+          />
+        }
+      />
+      <ControlRow
+        title="Square Size"
+        controller={
+          <SquareSizeController
+            squareSize={squareSize}
+            onSquareSizeUpdated={onSquareSizeUpdated}
           />
         }
       />

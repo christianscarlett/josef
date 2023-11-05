@@ -27,3 +27,5 @@ export const updateRandomPalette = function (
 
   return newPalette;
 };
+
+export const CANVAS_SIZE = 512;

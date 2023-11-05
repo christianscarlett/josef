@@ -1,10 +1,12 @@
 import { useEffect, useRef } from "react";
+import { CANVAS_SIZE } from "../model/Model";
 
 const updateCanvas = function (
   canvas: HTMLCanvasElement,
   palette: string[],
   verticalSpacing: number,
-  horizontalSpacing: number
+  horizontalSpacing: number,
+  squareSize: number
 ) {
   const ctx = canvas.getContext("2d");
   if (ctx == null) {
@@ -13,7 +15,7 @@ const updateCanvas = function (
   const height = canvas.height;
   const width = canvas.width;
 
-  const d_init = 100;
+  const d_init = Math.round(CANVAS_SIZE * squareSize);
   // Ratio of bottom spacing to top spacing
   const r_h = verticalSpacing;
   // Ratio of left spacing to right spacing
@@ -40,17 +42,24 @@ interface SquareProps {
   palette: string[];
   verticalSpacing: number;
   horizontalSpacing: number;
+  squareSize: number;
 }
 
 function Square(props: SquareProps) {
-  const { palette, verticalSpacing, horizontalSpacing } = props;
+  const { palette, verticalSpacing, horizontalSpacing, squareSize } = props;
 
   const canvasRef = useRef(null);
 
   useEffect(() => {
     let canvas = canvasRef.current as unknown as HTMLCanvasElement;
     if (canvas != null) {
-      updateCanvas(canvas, palette, verticalSpacing, horizontalSpacing);
+      updateCanvas(
+        canvas,
+        palette,
+        verticalSpacing,
+        horizontalSpacing,
+        squareSize
+      );
     }
   });
 
@@ -58,8 +67,8 @@ function Square(props: SquareProps) {
     <canvas
       ref={canvasRef}
       className="border-solid border-2 drop-shadow-xl"
-      width="500"
-      height="500"
+      width={CANVAS_SIZE}
+      height={CANVAS_SIZE}
     ></canvas>
   );
 }
