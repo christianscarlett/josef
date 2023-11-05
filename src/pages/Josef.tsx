@@ -16,7 +16,7 @@ function Josef() {
         <Square palette={palette} />
       </div>
       <Controls
-        numSquares={palette.length}
+        palette={palette}
         onNumSquaresUpdated={(n) => {
           setPalette(updateRandomPalette(palette, n));
         }}
