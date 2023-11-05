@@ -1,11 +1,14 @@
 import { InputNumber } from "antd";
 import ControlRow from "./ControlRow";
 import PaletteController, { OnPaletteIndexUpdated } from "./PaletteController";
+import SpacingController, { OnSpacingUpdated } from "./SpacingController";
 
 interface ControlsProps {
   palette: string[];
+  verticalSpacing: number;
   onNumSquaresUpdated: OnNumSquaresUpdatedFunction;
   onPaletteIndexUpdated: OnPaletteIndexUpdated;
+  onVerticalSpacingUpdated: OnSpacingUpdated;
 }
 
 interface OnNumSquaresUpdatedFunction {
@@ -13,7 +16,13 @@ interface OnNumSquaresUpdatedFunction {
 }
 
 function Controls(props: ControlsProps) {
-  const { palette, onNumSquaresUpdated, onPaletteIndexUpdated } = props;
+  const {
+    palette,
+    verticalSpacing,
+    onNumSquaresUpdated,
+    onPaletteIndexUpdated,
+    onVerticalSpacingUpdated,
+  } = props;
 
   return (
     <div className="flex flex-col items-start">
@@ -40,6 +49,15 @@ function Controls(props: ControlsProps) {
           <PaletteController
             palette={palette}
             onPaletteIndexUpdated={onPaletteIndexUpdated}
+          />
+        }
+      />
+      <ControlRow
+        title="Vertical Spacing"
+        controller={
+          <SpacingController
+            spacing={verticalSpacing}
+            onSpacingUpdated={onVerticalSpacingUpdated}
           />
         }
       />
