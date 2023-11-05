@@ -1,3 +1,5 @@
+import Title from "antd/es/typography/Title";
+import Controls from "../components/Controls";
 import Square from "../components/Square";
 import "./Josef.css";
 
@@ -7,7 +9,10 @@ function Josef() {
       <h1 className="text-2xl mb-10">
         Josef Albers "Homage to the Square" Generator
       </h1>
-      <Square />
+      <div className="mb-10">
+        <Square />
+      </div>
+      <Controls />
     </div>
   );
 }
