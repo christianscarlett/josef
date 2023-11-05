@@ -1,11 +1,15 @@
 import { Segmented } from "antd";
 import { SegmentedLabeledOption } from "antd/es/segmented";
+import { useState } from "react";
 
 interface PaletteControllerProps {
   palette: string[];
 }
 
-const getSegmentedOption = function (color: string): SegmentedLabeledOption {
+const getSegmentedOption = function (
+  color: string,
+  value: number
+): SegmentedLabeledOption {
   return {
     label: (
       <div
@@ -13,14 +17,23 @@ const getSegmentedOption = function (color: string): SegmentedLabeledOption {
         style={{ backgroundColor: color }}
       ></div>
     ),
-    value: color,
+    value: value,
   };
 };
 
 function PaletteController(props: PaletteControllerProps) {
   const { palette } = props;
-  const options = palette.map((color) => getSegmentedOption(color));
-  return <Segmented options={options} />;
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const options = palette.map((color, i) => getSegmentedOption(color, i));
+  return (
+    <Segmented
+      options={options}
+      value={selectedIndex}
+      onChange={(value) => {
+        setSelectedIndex(value as number);
+      }}
+    />
+  );
 }
 
 export default PaletteController;
