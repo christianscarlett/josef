@@ -1,5 +1,6 @@
 export const generateRandomColor = function (): string {
-  return "#" + Math.floor(Math.random() * 16777215).toString(16);
+  // https://stackoverflow.com/questions/5092808/how-do-i-randomly-generate-html-hex-color-codes-using-javascript
+  return "#" + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, "0");
 };
 
 export const generateRandomPalette = function (numColors: number): string[] {

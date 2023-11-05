@@ -17,7 +17,6 @@ const roundFriendlyNumber = function (n: number): number {
 };
 
 const getFriendlyRatio = function (spacing: number): string {
-  console.log(spacing);
   if (spacing <= 1 / 2) {
     return "1 : " + roundFriendlyNumber(1 / spacing - 1);
   }
