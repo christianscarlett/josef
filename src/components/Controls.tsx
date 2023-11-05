@@ -6,9 +6,11 @@ import SpacingController, { OnSpacingUpdated } from "./SpacingController";
 interface ControlsProps {
   palette: string[];
   verticalSpacing: number;
+  horizontalSpacing: number;
   onNumSquaresUpdated: OnNumSquaresUpdatedFunction;
   onPaletteIndexUpdated: OnPaletteIndexUpdated;
   onVerticalSpacingUpdated: OnSpacingUpdated;
+  onHorizontalSpacingUpdated: OnSpacingUpdated;
 }
 
 interface OnNumSquaresUpdatedFunction {
@@ -19,9 +21,11 @@ function Controls(props: ControlsProps) {
   const {
     palette,
     verticalSpacing,
+    horizontalSpacing,
     onNumSquaresUpdated,
     onPaletteIndexUpdated,
     onVerticalSpacingUpdated,
+    onHorizontalSpacingUpdated,
   } = props;
 
   return (
@@ -58,6 +62,15 @@ function Controls(props: ControlsProps) {
           <SpacingController
             spacing={verticalSpacing}
             onSpacingUpdated={onVerticalSpacingUpdated}
+          />
+        }
+      />
+      <ControlRow
+        title="Horizontal Spacing"
+        controller={
+          <SpacingController
+            spacing={horizontalSpacing}
+            onSpacingUpdated={onHorizontalSpacingUpdated}
           />
         }
       />

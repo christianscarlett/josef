@@ -3,7 +3,8 @@ import { useEffect, useRef } from "react";
 const updateCanvas = function (
   canvas: HTMLCanvasElement,
   palette: string[],
-  verticalSpacing: number
+  verticalSpacing: number,
+  horizontalSpacing: number
 ) {
   const ctx = canvas.getContext("2d");
   if (ctx == null) {
@@ -15,12 +16,12 @@ const updateCanvas = function (
   const d_init = 100;
   // Ratio of bottom spacing to top spacing
   const r_h = verticalSpacing;
-  // Ratio of right spacing to left spacing
-  const r_w = 1 / 2;
+  // Ratio of left spacing to right spacing
+  const r_w = horizontalSpacing;
 
   palette.forEach((color, i) => {
     const d = d_init * i;
-    const x = d * (1 - r_w);
+    const x = d * r_w;
     const w = width - d;
     const y = d * (1 - r_h);
     const h = height - d;
@@ -38,17 +39,18 @@ const updateCanvas = function (
 interface SquareProps {
   palette: string[];
   verticalSpacing: number;
+  horizontalSpacing: number;
 }
 
 function Square(props: SquareProps) {
-  const { palette, verticalSpacing } = props;
+  const { palette, verticalSpacing, horizontalSpacing } = props;
 
   const canvasRef = useRef(null);
 
   useEffect(() => {
     let canvas = canvasRef.current as unknown as HTMLCanvasElement;
     if (canvas != null) {
-      updateCanvas(canvas, palette, verticalSpacing);
+      updateCanvas(canvas, palette, verticalSpacing, horizontalSpacing);
     }
   });
 

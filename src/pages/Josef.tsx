@@ -7,6 +7,7 @@ import { generateRandomPalette, updateRandomPalette } from "../model/Model";
 function Josef() {
   const [palette, setPalette] = useState<string[]>(generateRandomPalette(4));
   const [verticalSpacing, setVerticalSpacing] = useState<number>(1 / 4);
+  const [horizontalSpacing, setHorizontalSpacing] = useState<number>(1 / 2);
 
   return (
     <div className="Josef h-screen flex flex-col items-center justify-center">
@@ -14,11 +15,16 @@ function Josef() {
         Josef Albers "Homage to the Square" Generator
       </h1>
       <div className="mb-10">
-        <Square palette={palette} verticalSpacing={verticalSpacing} />
+        <Square
+          palette={palette}
+          verticalSpacing={verticalSpacing}
+          horizontalSpacing={horizontalSpacing}
+        />
       </div>
       <Controls
         palette={palette}
         verticalSpacing={verticalSpacing}
+        horizontalSpacing={horizontalSpacing}
         onNumSquaresUpdated={(n) => {
           setPalette(updateRandomPalette(palette, n));
         }}
@@ -29,6 +35,9 @@ function Josef() {
         }}
         onVerticalSpacingUpdated={(n) => {
           setVerticalSpacing(n);
+        }}
+        onHorizontalSpacingUpdated={(n) => {
+          setHorizontalSpacing(n);
         }}
       />
     </div>
