@@ -20,6 +20,11 @@ function Josef() {
         onNumSquaresUpdated={(n) => {
           setPalette(updateRandomPalette(palette, n));
         }}
+        onPaletteIndexUpdated={(index, newColor) => {
+          const p = [...palette];
+          p[index] = newColor;
+          setPalette(p);
+        }}
       />
     </div>
   );

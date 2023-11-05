@@ -1,10 +1,11 @@
 import { InputNumber } from "antd";
 import ControlRow from "./ControlRow";
-import PaletteController from "./PaletteController";
+import PaletteController, { OnPaletteIndexUpdated } from "./PaletteController";
 
 interface ControlsProps {
   palette: string[];
   onNumSquaresUpdated: OnNumSquaresUpdatedFunction;
+  onPaletteIndexUpdated: OnPaletteIndexUpdated;
 }
 
 interface OnNumSquaresUpdatedFunction {
@@ -12,7 +13,7 @@ interface OnNumSquaresUpdatedFunction {
 }
 
 function Controls(props: ControlsProps) {
-  const { palette, onNumSquaresUpdated } = props;
+  const { palette, onNumSquaresUpdated, onPaletteIndexUpdated } = props;
 
   return (
     <div className="flex flex-col items-start">
@@ -35,7 +36,12 @@ function Controls(props: ControlsProps) {
       />
       <ControlRow
         title="Palette"
-        controller={<PaletteController palette={palette} />}
+        controller={
+          <PaletteController
+            palette={palette}
+            onPaletteIndexUpdated={onPaletteIndexUpdated}
+          />
+        }
       />
     </div>
   );
