@@ -1,10 +1,5 @@
 import { Segmented } from "antd";
-
-export enum Texture {
-  Flat = "Flat",
-  Fabric = "Fabric",
-  Paper = "Paper",
-}
+import { Texture } from "../model/Model";
 
 export interface onTextureUpdated {
   (t: Texture): void;

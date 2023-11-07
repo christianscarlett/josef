@@ -1,3 +1,4 @@
+import { Texture } from "../model/Model";
 import ControlRow from "./ControlRow";
 import PaletteController, {
   OnPaletteIndexUpdated,
@@ -8,10 +9,7 @@ import SpacingController, { OnSpacingUpdated } from "./SpacingController";
 import SquareSizeController, {
   OnSquareSizeUpdated,
 } from "./SquareSizeController";
-import TextureController, {
-  Texture,
-  onTextureUpdated,
-} from "./TextureController";
+import TextureController, { onTextureUpdated } from "./TextureController";
 
 interface ControlsProps {
   palette: string[];

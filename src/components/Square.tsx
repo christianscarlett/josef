@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
-import { CANVAS_SIZE, getTextureConfig } from "../model/Model";
-import { Texture } from "./TextureController";
+import { CANVAS_SIZE, Texture, getTextureConfig } from "../model/Model";
 
 const updateCanvas = function (
   canvas: HTMLCanvasElement,

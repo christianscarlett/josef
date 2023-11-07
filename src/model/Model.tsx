@@ -1,6 +1,5 @@
-import { Texture } from "../components/TextureController";
 import fabric from "../images/lightfabric.png";
-import paper from "../images/paper.png";
+import paper from "../images/cleanpaper.png";
 
 export const generateRandomColor = function (): string {
   // https://stackoverflow.com/questions/5092808/how-do-i-randomly-generate-html-hex-color-codes-using-javascript
@@ -33,6 +32,12 @@ export const updateRandomPalette = function (
 };
 
 export const CANVAS_SIZE = 512;
+
+export enum Texture {
+  Flat = "Flat",
+  Fabric = "Fabric",
+  Paper = "Paper",
+}
 
 export interface TextureConfig {
   src: string;
