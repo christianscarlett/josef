@@ -1,12 +1,12 @@
 import { Slider } from "antd";
 
-export interface onSquareSizeUpdated {
+export interface OnSquareSizeUpdated {
   (n: number): void;
 }
 
 interface SquareSizeControllerProps {
   squareSize: number;
-  onSquareSizeUpdated: onSquareSizeUpdated;
+  onSquareSizeUpdated: OnSquareSizeUpdated;
 }
 
 function SquareSizeController(props: SquareSizeControllerProps) {

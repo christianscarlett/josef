@@ -6,20 +6,26 @@ import PaletteController, {
 } from "./PaletteController";
 import SpacingController, { OnSpacingUpdated } from "./SpacingController";
 import SquareSizeController, {
-  onSquareSizeUpdated,
+  OnSquareSizeUpdated,
 } from "./SquareSizeController";
+import TextureController, {
+  Texture,
+  onTextureUpdated,
+} from "./TextureController";
 
 interface ControlsProps {
   palette: string[];
   verticalSpacing: number;
   horizontalSpacing: number;
   squareSize: number;
+  texture: Texture;
   onNumSquaresUpdated: OnNumSquaresUpdated;
   onPaletteIndexUpdated: OnPaletteIndexUpdated;
   onVerticalSpacingUpdated: OnSpacingUpdated;
   onHorizontalSpacingUpdated: OnSpacingUpdated;
   onRandomizeClicked: OnRandomizeClicked;
-  onSquareSizeUpdated: onSquareSizeUpdated;
+  onSquareSizeUpdated: OnSquareSizeUpdated;
+  onTextureUpdated: onTextureUpdated;
 }
 
 function Controls(props: ControlsProps) {
@@ -28,12 +34,14 @@ function Controls(props: ControlsProps) {
     verticalSpacing,
     horizontalSpacing,
     squareSize,
+    texture,
     onNumSquaresUpdated,
     onPaletteIndexUpdated,
     onVerticalSpacingUpdated,
     onHorizontalSpacingUpdated,
     onRandomizeClicked,
     onSquareSizeUpdated,
+    onTextureUpdated,
   } = props;
 
   return (
@@ -46,6 +54,15 @@ function Controls(props: ControlsProps) {
             onPaletteIndexUpdated={onPaletteIndexUpdated}
             onNumSquaresUpdated={onNumSquaresUpdated}
             onRandomizeClicked={onRandomizeClicked}
+          />
+        }
+      />
+      <ControlRow
+        title="Texture"
+        controller={
+          <TextureController
+            texture={texture}
+            onTextureUpdated={onTextureUpdated}
           />
         }
       />

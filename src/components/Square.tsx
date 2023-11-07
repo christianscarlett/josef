@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
 import { CANVAS_SIZE } from "../model/Model";
+import fabric from "../images/lightfabric.png";
+import paper from "../images/paper.png";
 
 const updateCanvas = function (
   canvas: HTMLCanvasElement,
@@ -36,6 +38,25 @@ const updateCanvas = function (
     ctx.fillStyle = color;
     ctx.fillRect(x, y, w, h);
   });
+
+  // let texture = new Image();
+  // texture.src = lightFabric;
+
+  // if (texture.complete) {
+  //   drawTexture(canvas, ctx, texture);
+  // } else {
+  //   texture.onload = function () {
+  //     drawTexture(canvas, ctx, texture);
+  //   };
+  // }
+};
+
+const drawTexture = function (
+  canvas: HTMLCanvasElement,
+  ctx: CanvasRenderingContext2D,
+  texture: HTMLImageElement
+) {
+  ctx.drawImage(texture, 0, 0, canvas.width, canvas.height);
 };
 
 interface SquareProps {

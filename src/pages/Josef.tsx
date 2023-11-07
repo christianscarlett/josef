@@ -3,12 +3,16 @@ import Controls from "../components/Controls";
 import Square from "../components/Square";
 import "./Josef.css";
 import { generateRandomPalette, updateRandomPalette } from "../model/Model";
+import { Texture } from "../components/TextureController";
 
 function Josef() {
   const [palette, setPalette] = useState<string[]>(generateRandomPalette(4));
   const [verticalSpacing, setVerticalSpacing] = useState<number>(1 / 4);
   const [horizontalSpacing, setHorizontalSpacing] = useState<number>(1 / 2);
   const [squareSize, setSquareSize] = useState<number>(0.2);
+  const [texture, setTexture] = useState<Texture>(Texture.Flat);
+
+  console.log(texture);
 
   return (
     <div className="Josef min-h-screen flex flex-col items-center justify-center">
@@ -28,6 +32,7 @@ function Josef() {
         verticalSpacing={verticalSpacing}
         horizontalSpacing={horizontalSpacing}
         squareSize={squareSize}
+        texture={texture}
         onNumSquaresUpdated={(n) => {
           setPalette(updateRandomPalette(palette, n));
         }}
@@ -47,6 +52,9 @@ function Josef() {
         }}
         onSquareSizeUpdated={(n) => {
           setSquareSize(n);
+        }}
+        onTextureUpdated={(t) => {
+          setTexture(t);
         }}
       />
     </div>
