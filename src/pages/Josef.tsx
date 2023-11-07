@@ -25,6 +25,7 @@ function Josef() {
           verticalSpacing={verticalSpacing}
           horizontalSpacing={horizontalSpacing}
           squareSize={squareSize}
+          texture={texture}
         />
       </div>
       <Controls

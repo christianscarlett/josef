@@ -1,14 +1,14 @@
 import { useEffect, useRef } from "react";
-import { CANVAS_SIZE } from "../model/Model";
-import fabric from "../images/lightfabric.png";
-import paper from "../images/paper.png";
+import { CANVAS_SIZE, getTextureConfig } from "../model/Model";
+import { Texture } from "./TextureController";
 
 const updateCanvas = function (
   canvas: HTMLCanvasElement,
   palette: string[],
   verticalSpacing: number,
   horizontalSpacing: number,
-  squareSize: number
+  squareSize: number,
+  texture: Texture
 ) {
   const ctx = canvas.getContext("2d");
   if (ctx == null) {
@@ -39,16 +39,16 @@ const updateCanvas = function (
     ctx.fillRect(x, y, w, h);
   });
 
-  // let texture = new Image();
-  // texture.src = lightFabric;
-
-  // if (texture.complete) {
-  //   drawTexture(canvas, ctx, texture);
-  // } else {
-  //   texture.onload = function () {
-  //     drawTexture(canvas, ctx, texture);
-  //   };
-  // }
+  const textureConfig = getTextureConfig(texture);
+  let textureImage = new Image();
+  textureImage.src = textureConfig.src;
+  if (textureImage.complete) {
+    drawTexture(canvas, ctx, textureImage);
+  } else {
+    textureImage.onload = function () {
+      drawTexture(canvas, ctx, textureImage);
+    };
+  }
 };
 
 const drawTexture = function (
@@ -64,10 +64,12 @@ interface SquareProps {
   verticalSpacing: number;
   horizontalSpacing: number;
   squareSize: number;
+  texture: Texture;
 }
 
 function Square(props: SquareProps) {
-  const { palette, verticalSpacing, horizontalSpacing, squareSize } = props;
+  const { palette, verticalSpacing, horizontalSpacing, squareSize, texture } =
+    props;
 
   const canvasRef = useRef(null);
 
@@ -79,7 +81,8 @@ function Square(props: SquareProps) {
         palette,
         verticalSpacing,
         horizontalSpacing,
-        squareSize
+        squareSize,
+        texture
       );
     }
   });
