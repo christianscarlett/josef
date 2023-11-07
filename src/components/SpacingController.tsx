@@ -86,25 +86,23 @@ function SpacingController(props: SpacingControllerProps) {
           onSpacingUpdated(spacingOptionToSpacing(v, spacing));
         }}
       />
-      <div className="flex self-stretch">
-        <div className="w-full">
-          <Slider
-            value={spacing}
-            onChange={(n) => {
-              if (n == null || n < MIN_SPACING || n > MAX_SPACING) {
-                n = spacing;
-              }
-              setSpacingOption(spacingToSpacingOption(n));
-              onSpacingUpdated(n);
-            }}
-            min={MIN_SPACING}
-            max={MAX_SPACING}
-            step={0.001}
-            tooltip={{
-              placement: "bottom",
-            }}
-          />
-        </div>
+      <div className="w-full">
+        <Slider
+          value={spacing}
+          onChange={(n) => {
+            if (n == null || n < MIN_SPACING || n > MAX_SPACING) {
+              n = spacing;
+            }
+            setSpacingOption(spacingToSpacingOption(n));
+            onSpacingUpdated(n);
+          }}
+          min={MIN_SPACING}
+          max={MAX_SPACING}
+          step={0.001}
+          tooltip={{
+            placement: "bottom",
+          }}
+        />
       </div>
     </div>
   );
