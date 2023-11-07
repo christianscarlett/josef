@@ -1,5 +1,5 @@
 import { Segmented } from "antd";
-import { Texture } from "../model/Model";
+import { Texture } from "../model/Texture";
 
 export interface onTextureUpdated {
   (t: Texture): void;

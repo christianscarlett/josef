@@ -1,4 +1,4 @@
-import { Texture } from "../model/Model";
+import { Texture } from "../model/Texture";
 import ControlRow from "./ControlRow";
 import PaletteController, {
   OnPaletteIndexUpdated,

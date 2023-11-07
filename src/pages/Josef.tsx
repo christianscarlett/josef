@@ -2,11 +2,8 @@ import { useState } from "react";
 import Controls from "../components/Controls";
 import Square from "../components/Square";
 import "./Josef.css";
-import {
-  Texture,
-  generateRandomPalette,
-  updateRandomPalette,
-} from "../model/Model";
+import { generateRandomPalette, updateRandomPalette } from "../model/Model";
+import { Texture } from "../model/Texture";
 
 function Josef() {
   const [palette, setPalette] = useState<string[]>(generateRandomPalette(4));

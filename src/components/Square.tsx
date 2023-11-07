@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
-import { CANVAS_SIZE, Texture, getTextureConfig } from "../model/Model";
+import { CANVAS_SIZE } from "../model/Model";
+import { Texture, getTextureConfig } from "../model/Texture";
 
 const updateCanvas = function (
   canvas: HTMLCanvasElement,
@@ -38,15 +39,17 @@ const updateCanvas = function (
     ctx.fillRect(x, y, w, h);
   });
 
-  const textureConfig = getTextureConfig(texture);
-  let textureImage = new Image();
-  textureImage.src = textureConfig.src;
-  if (textureImage.complete) {
-    drawTexture(canvas, ctx, textureImage);
-  } else {
-    textureImage.onload = function () {
+  if (texture !== Texture.Flat) {
+    const textureConfig = getTextureConfig(texture);
+    let textureImage = new Image();
+    textureImage.src = textureConfig.src;
+    if (textureImage.complete) {
       drawTexture(canvas, ctx, textureImage);
-    };
+    } else {
+      textureImage.onload = function () {
+        drawTexture(canvas, ctx, textureImage);
+      };
+    }
   }
 };
 
