@@ -17,7 +17,7 @@ function Josef() {
       <h1 className="text-2xl mb-10 mt-10">
         Josef Albers "Homage to the Square" Generator
       </h1>
-      <div className="mb-10">
+      <div className="flex flex-col items-center justify-center mb-5">
         <Square
           palette={palette}
           verticalSpacing={verticalSpacing}

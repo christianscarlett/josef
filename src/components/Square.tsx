@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { CANVAS_SIZE } from "../model/Model";
 import { Texture, getTextureConfig } from "../model/Texture";
+import { Button } from "antd";
 
 const updateCanvas = function (
   canvas: HTMLCanvasElement,
@@ -90,12 +91,29 @@ function Square(props: SquareProps) {
   });
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="border-solid border-2 drop-shadow-xl"
-      width={CANVAS_SIZE}
-      height={CANVAS_SIZE}
-    ></canvas>
+    <>
+      <canvas
+        ref={canvasRef}
+        className="border-solid border-2 drop-shadow-xl"
+        width={CANVAS_SIZE}
+        height={CANVAS_SIZE}
+      ></canvas>
+      <Button
+        className="bg-gray-400 mt-5 w-full drop-shadow-xl"
+        type="primary"
+        onClick={() => {
+          var link = document.createElement("a");
+          link.download = "josef_square_generated.png";
+          let canvas = canvasRef.current as unknown as HTMLCanvasElement;
+          if (canvas != null) {
+            link.href = canvas.toDataURL();
+            link.click();
+          }
+        }}
+      >
+        Download
+      </Button>
+    </>
   );
 }
 
