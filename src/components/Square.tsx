@@ -102,9 +102,9 @@ function Square(props: SquareProps) {
         className="bg-gray-400 mt-5 w-full drop-shadow-xl"
         type="primary"
         onClick={() => {
-          var link = document.createElement("a");
+          const link = document.createElement("a");
           link.download = "josef_square_generated.png";
-          let canvas = canvasRef.current as unknown as HTMLCanvasElement;
+          const canvas = canvasRef.current as unknown as HTMLCanvasElement;
           if (canvas != null) {
             link.href = canvas.toDataURL();
             link.click();
