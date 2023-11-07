@@ -42,8 +42,16 @@ function PaletteController(props: PaletteControllerProps) {
 
   return (
     <div className="flex flex-col items-center w-full">
-      <div className="flex mb-2">
-        {pickers}
+      <div className="flex mb-2">{pickers}</div>
+      <div className="flex">
+        <Button
+          className="bg-gray-100 mr-2"
+          type="default"
+          onClick={() => onRandomizeClicked()}
+        >
+          Randomize
+        </Button>
+
         <Button
           className="bg-gray-100"
           type="default"
@@ -63,13 +71,6 @@ function PaletteController(props: PaletteControllerProps) {
           +
         </Button>
       </div>
-      <Button
-        className="bg-gray-100"
-        type="default"
-        onClick={() => onRandomizeClicked()}
-      >
-        Randomize
-      </Button>
     </div>
   );
 }
