@@ -4,6 +4,7 @@ import PaletteController, {
   OnPaletteIndexUpdated,
   OnNumSquaresUpdated,
   OnRandomizeClicked,
+  OnImagePaletteCreated,
 } from "./PaletteController";
 import SpacingController, { OnSpacingUpdated } from "./SpacingController";
 import SquareSizeController, {
@@ -24,6 +25,7 @@ interface ControlsProps {
   onRandomizeClicked: OnRandomizeClicked;
   onSquareSizeUpdated: OnSquareSizeUpdated;
   onTextureUpdated: onTextureUpdated;
+  onImagePaletteCreated: OnImagePaletteCreated;
 }
 
 function Controls(props: ControlsProps) {
@@ -40,6 +42,7 @@ function Controls(props: ControlsProps) {
     onRandomizeClicked,
     onSquareSizeUpdated,
     onTextureUpdated,
+    onImagePaletteCreated,
   } = props;
 
   return (
@@ -52,6 +55,7 @@ function Controls(props: ControlsProps) {
             onPaletteIndexUpdated={onPaletteIndexUpdated}
             onNumSquaresUpdated={onNumSquaresUpdated}
             onRandomizeClicked={onRandomizeClicked}
+            onImagePaletteCreated={onImagePaletteCreated}
           />
         }
       />

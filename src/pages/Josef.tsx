@@ -55,6 +55,9 @@ function Josef() {
         onTextureUpdated={(t) => {
           setTexture(t);
         }}
+        onImagePaletteCreated={(p) => {
+          setPalette(p);
+        }}
       />
     </div>
   );

@@ -12,6 +12,7 @@ interface PaletteControllerProps {
   onPaletteIndexUpdated: OnPaletteIndexUpdated;
   onNumSquaresUpdated: OnNumSquaresUpdated;
   onRandomizeClicked: OnRandomizeClicked;
+  onImagePaletteCreated: OnImagePaletteCreated;
 }
 
 export interface OnPaletteIndexUpdated {
@@ -26,12 +27,17 @@ export interface OnRandomizeClicked {
   (): void;
 }
 
+export interface OnImagePaletteCreated {
+  (palette: string[]): void;
+}
+
 function PaletteController(props: PaletteControllerProps) {
   const {
     palette,
     onPaletteIndexUpdated,
     onNumSquaresUpdated,
     onRandomizeClicked,
+    onImagePaletteCreated,
   } = props;
 
   const pickers: ReactNode[] = palette.map((color, i) => {
@@ -53,6 +59,7 @@ function PaletteController(props: PaletteControllerProps) {
     const clusters = kClusterImageData(data, palette.length);
     const p = getPaletteFromRgb(clusters);
     console.log(p);
+    onImagePaletteCreated(p);
   };
 
   const onFileSelected = (e: React.ChangeEvent<HTMLInputElement>): void => {
