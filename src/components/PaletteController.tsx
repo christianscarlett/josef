@@ -1,7 +1,8 @@
 import { Button, ColorPicker } from "antd";
-import { ReactNode, useRef } from "react";
+import { ReactNode, useRef, useState } from "react";
 import {
   OnImageDataLoaded,
+  OnImgSrcGenerated,
   formatData,
   getDataFromFiles,
 } from "../model/Image";
@@ -52,24 +53,29 @@ function PaletteController(props: PaletteControllerProps) {
     );
   });
 
+  const [previewImageSrc, setPreviewImageSrc] = useState<string | null>(null);
+
   const fileInputRef = useRef(null);
 
   const onImageDataLoaded: OnImageDataLoaded = function (imageData: ImageData) {
     const data = formatData(imageData);
     const clusters = kClusterImageData(data, palette.length);
-    const p = getPaletteFromRgb(clusters);
-    console.log(p);
-    onImagePaletteCreated(p);
+    const newPalette = getPaletteFromRgb(clusters);
+    onImagePaletteCreated(newPalette);
+  };
+
+  const onImgSrcGenerated: OnImgSrcGenerated = function (src: string) {
+    setPreviewImageSrc(src);
   };
 
   const onFileSelected = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const files = e.target.files;
-    getDataFromFiles(files, onImageDataLoaded);
+    getDataFromFiles(files, onImageDataLoaded, onImgSrcGenerated);
   };
 
   return (
     <div className="flex items-center justify-around w-full">
-      <div>
+      <div className="flex flex-col justify-center items-center">
         <input
           ref={fileInputRef}
           className="h-0 w-0 overflow-hidden"
@@ -77,8 +83,15 @@ function PaletteController(props: PaletteControllerProps) {
           accept="image/*"
           onChange={onFileSelected}
         />
+        {previewImageSrc && (
+          <img
+            className="w-1/3 max-w-xs max-h-xs mb-2"
+            alt="img"
+            src={previewImageSrc}
+          />
+        )}
         <Button
-          className="bg-gray-100 mr-2"
+          className="bg-gray-100 w-fit"
           type="default"
           onClick={() => {
             const fileInput =
