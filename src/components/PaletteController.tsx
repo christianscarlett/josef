@@ -5,6 +5,7 @@ import {
   formatData,
   getDataFromFiles,
 } from "../model/Image";
+import { getPaletteFromRgb, kClusterImageData } from "../model/Model";
 
 interface PaletteControllerProps {
   palette: string[];
@@ -49,7 +50,9 @@ function PaletteController(props: PaletteControllerProps) {
 
   const onImageDataLoaded: OnImageDataLoaded = function (imageData: ImageData) {
     const data = formatData(imageData);
-    console.log(data.at(0));
+    const clusters = kClusterImageData(data, palette.length);
+    const p = getPaletteFromRgb(clusters);
+    console.log(p);
   };
 
   const onFileSelected = (e: React.ChangeEvent<HTMLInputElement>): void => {
