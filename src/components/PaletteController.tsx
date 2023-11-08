@@ -1,6 +1,10 @@
 import { Button, ColorPicker } from "antd";
 import { ReactNode, useRef } from "react";
-import { OnImageDataLoaded, getDataFromFiles } from "../model/Image";
+import {
+  OnImageDataLoaded,
+  formatData,
+  getDataFromFiles,
+} from "../model/Image";
 
 interface PaletteControllerProps {
   palette: string[];
@@ -44,9 +48,8 @@ function PaletteController(props: PaletteControllerProps) {
   const fileInputRef = useRef(null);
 
   const onImageDataLoaded: OnImageDataLoaded = function (imageData: ImageData) {
-    const data = imageData.data;
-    console.log(data.length);
-    console.log(data.length / 512 / 512);
+    const data = formatData(imageData);
+    console.log(data.at(0));
   };
 
   const onFileSelected = (e: React.ChangeEvent<HTMLInputElement>): void => {

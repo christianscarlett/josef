@@ -50,9 +50,12 @@ const getDataFromFileResult = async function (
   img.src = result;
 };
 
-export const formatData = function (imageData: ImageData) {
-  // const rgbaData = imageData.data;
-  // const rgbData = number[];
-  // for
-  clusterfck.km;
+export const formatData = function (imageData: ImageData): number[][] {
+  const rgbaData = imageData.data;
+  const rgbData: number[][] = [];
+  for (let i = 0; i < rgbaData.length; i += 4) {
+    const rgb = [rgbaData[i], rgbaData[i + 1], rgbaData[i + 2]];
+    rgbData.push(rgb);
+  }
+  return rgbData;
 };
