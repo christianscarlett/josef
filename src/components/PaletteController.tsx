@@ -43,8 +43,10 @@ function PaletteController(props: PaletteControllerProps) {
 
   const fileInputRef = useRef(null);
 
-  const onImageDataLoaded: OnImageDataLoaded = function (data: ImageData) {
-    console.log(data);
+  const onImageDataLoaded: OnImageDataLoaded = function (imageData: ImageData) {
+    const data = imageData.data;
+    console.log(data.length);
+    console.log(data.length / 512 / 512);
   };
 
   const onFileSelected = (e: React.ChangeEvent<HTMLInputElement>): void => {
