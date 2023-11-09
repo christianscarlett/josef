@@ -1,7 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CANVAS_SIZE } from "../model/Model";
 import { Texture, getTextureConfig } from "../model/Texture";
-import { Button } from "antd";
+import { Button, ColorPicker } from "antd";
 
 const updateCanvas = function (
   canvas: HTMLCanvasElement,
@@ -70,11 +70,30 @@ interface SquareProps {
   texture: Texture;
 }
 
+interface Coordinates {
+  x: number;
+  y: number;
+}
+
 function Square(props: SquareProps) {
   const { palette, verticalSpacing, horizontalSpacing, squareSize, texture } =
     props;
 
   const canvasRef = useRef(null);
+
+  const [dynamicColorPickerCoords, setDynamicColorPickerCoords] =
+    useState<Coordinates | null>(null);
+
+  const onCanvasClick = function (
+    e: React.MouseEvent<HTMLCanvasElement, MouseEvent>
+  ) {
+    const { pageX, pageY } = e;
+    setDynamicColorPickerCoords({ x: pageX, y: pageY });
+  };
+
+  const onMouseLeaveColorPicker = function () {
+    setDynamicColorPickerCoords(null);
+  };
 
   useEffect(() => {
     let canvas = canvasRef.current as unknown as HTMLCanvasElement;
@@ -97,7 +116,22 @@ function Square(props: SquareProps) {
         className="border-solid border-2 drop-shadow-xl"
         width={CANVAS_SIZE}
         height={CANVAS_SIZE}
+        onClick={onCanvasClick}
       ></canvas>
+      {dynamicColorPickerCoords && (
+        <div
+          className="absolute"
+          style={{
+            left: dynamicColorPickerCoords.x,
+            top: dynamicColorPickerCoords.y,
+            transform: "translate(-50%, -50%)",
+          }}
+          onMouseLeave={onMouseLeaveColorPicker}
+        >
+          <ColorPicker className="m-6" />
+        </div>
+      )}
+
       <Button
         className="bg-gray-400 mt-5 w-full drop-shadow-xl"
         type="primary"
