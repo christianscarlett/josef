@@ -1,37 +1,31 @@
 export interface OnImageDataLoaded {
-  (imageData: ImageData): void;
-}
-
-export interface OnImgSrcGenerated {
-  (src: string): void;
+  (imageData: ImageData, src: string): void;
 }
 
 export const getDataFromFiles = async function (
   files: FileList | null,
-  callback: OnImageDataLoaded,
-  imgSrcCallback: OnImgSrcGenerated
+  callback: OnImageDataLoaded
 ) {
   console.log("fromfiles");
   if (files != null) {
     const filesArray = Array.from(files);
     const file = filesArray.at(0);
     if (file !== undefined) {
-      getDataFromFile(file, callback, imgSrcCallback);
+      getDataFromFile(file, callback);
     }
   }
 };
 
 const getDataFromFile = async function (
   file: File,
-  callback: OnImageDataLoaded,
-  imgSrcCallback: OnImgSrcGenerated
+  callback: OnImageDataLoaded
 ) {
   console.log("fromfile");
   const fileReader = new FileReader();
   fileReader.onload = function () {
     const result = fileReader.result;
     if (typeof result === "string") {
-      getDataFromFileResult(result, callback, imgSrcCallback);
+      getDataFromFileResult(result, callback);
     }
   };
   fileReader.readAsDataURL(file);
@@ -41,8 +35,7 @@ const IMG_CANVAS_SIZE = 512;
 
 const getDataFromFileResult = async function (
   result: string,
-  callback: OnImageDataLoaded,
-  imgSrcCallback: OnImgSrcGenerated
+  callback: OnImageDataLoaded
 ) {
   console.log("fromresult");
   const img = new Image();
@@ -54,11 +47,10 @@ const getDataFromFileResult = async function (
     const ctx = canvas.getContext("2d");
     if (ctx !== null) {
       ctx.drawImage(img, 0, 0);
-      callback(ctx.getImageData(0, 0, canvas.width, canvas.height));
+      callback(ctx.getImageData(0, 0, canvas.width, canvas.height), result);
     }
   };
   img.src = result;
-  imgSrcCallback(result);
 };
 
 export const formatData = function (imageData: ImageData): number[][] {

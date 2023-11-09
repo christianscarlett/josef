@@ -1,12 +1,7 @@
 import { Button, ColorPicker } from "antd";
 import { ReactNode, useRef, useState } from "react";
-import {
-  OnImageDataLoaded,
-  OnImgSrcGenerated,
-  formatData,
-  getDataFromFiles,
-} from "../model/Image";
-import { getPaletteFromRgb, kClusterImageData } from "../model/Model";
+import { OnImageDataLoaded, getDataFromFiles } from "../model/Image";
+import { generatePaletteFromImageData } from "../model/Model";
 
 interface PaletteControllerProps {
   palette: string[];
@@ -32,6 +27,15 @@ export interface OnImagePaletteCreated {
   (palette: string[]): void;
 }
 
+class PreviewImageData {
+  imageData: ImageData;
+  src: string;
+  constructor(imageData: ImageData, src: string) {
+    this.imageData = imageData;
+    this.src = src;
+  }
+}
+
 function PaletteController(props: PaletteControllerProps) {
   const {
     palette,
@@ -53,24 +57,35 @@ function PaletteController(props: PaletteControllerProps) {
     );
   });
 
-  const [previewImageSrc, setPreviewImageSrc] = useState<string | null>(null);
+  const [previewImageData, setPreviewImageData] =
+    useState<PreviewImageData | null>(null);
 
   const fileInputRef = useRef(null);
 
-  const onImageDataLoaded: OnImageDataLoaded = function (imageData: ImageData) {
-    const data = formatData(imageData);
-    const clusters = kClusterImageData(data, palette.length);
-    const newPalette = getPaletteFromRgb(clusters);
-    onImagePaletteCreated(newPalette);
+  const onImageDataLoaded: OnImageDataLoaded = function (
+    imageData: ImageData,
+    src: string
+  ) {
+    setPreviewImageData(new PreviewImageData(imageData, src));
+    onImagePaletteCreated(
+      generatePaletteFromImageData(imageData, palette.length)
+    );
   };
 
-  const onImgSrcGenerated: OnImgSrcGenerated = function (src: string) {
-    setPreviewImageSrc(src);
+  const onRepalettizeClicked = function () {
+    if (previewImageData?.imageData != null) {
+      onImagePaletteCreated(
+        generatePaletteFromImageData(
+          previewImageData?.imageData,
+          palette.length
+        )
+      );
+    }
   };
 
   const onFileSelected = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const files = e.target.files;
-    getDataFromFiles(files, onImageDataLoaded, onImgSrcGenerated);
+    getDataFromFiles(files, onImageDataLoaded);
   };
 
   return (
@@ -83,24 +98,34 @@ function PaletteController(props: PaletteControllerProps) {
           accept="image/*"
           onChange={onFileSelected}
         />
-        {previewImageSrc && (
+        {previewImageData?.src && (
           <img
             className="w-1/3 max-w-xs max-h-xs mb-2"
             alt="img"
-            src={previewImageSrc}
+            src={previewImageData.src}
           />
         )}
-        <Button
-          className="bg-gray-100 w-fit"
-          type="default"
-          onClick={() => {
-            const fileInput =
-              fileInputRef.current as unknown as HTMLInputElement;
-            fileInput.click();
-          }}
-        >
-          Choose Image
-        </Button>
+        <div className="flex items-center justify-center">
+          <Button
+            className="bg-gray-100 w-fit mr-2"
+            type="default"
+            onClick={() => {
+              const fileInput =
+                fileInputRef.current as unknown as HTMLInputElement;
+              fileInput.click();
+            }}
+          >
+            Choose Image
+          </Button>
+          <Button
+            className="bg-gray-100 w-fit"
+            type="default"
+            onClick={onRepalettizeClicked}
+            disabled={previewImageData === null}
+          >
+            Re-palettize
+          </Button>
+        </div>
       </div>
       <div className="flex flex-col items-center">
         <div className="flex mb-2">{pickers}</div>

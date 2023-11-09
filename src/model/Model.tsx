@@ -1,4 +1,5 @@
 import { kmeans } from "ml-kmeans";
+import { formatData } from "./Image";
 
 export const generateRandomColor = function (): string {
   // https://stackoverflow.com/questions/5092808/how-do-i-randomly-generate-html-hex-color-codes-using-javascript
@@ -62,4 +63,13 @@ const componentToHex = function (c: number): string {
 /** Assumes integer inputs */
 const rgbToHex = function (r: number, g: number, b: number): string {
   return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+};
+
+export const generatePaletteFromImageData = function (
+  imageData: ImageData,
+  numColors: number
+): string[] {
+  const data = formatData(imageData);
+  const clusters = kClusterImageData(data, numColors);
+  return getPaletteFromRgb(clusters);
 };
