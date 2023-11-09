@@ -141,6 +141,7 @@ function Square(props: SquareProps) {
   };
 
   const onMouseLeaveColorPicker = function () {
+    console.log("here");
     setDynamicColorPickerCoords(null);
   };
 
@@ -158,6 +159,7 @@ function Square(props: SquareProps) {
     }
   });
 
+  console.log(dynamicColorPickerCoords);
   return (
     <>
       <canvas
@@ -167,27 +169,24 @@ function Square(props: SquareProps) {
         height={CANVAS_SIZE}
         onClick={onCanvasClick}
       ></canvas>
-      {dynamicColorPickerCoords && (
-        <div
-          className="absolute"
-          style={{
-            left: dynamicColorPickerCoords.x,
-            top: dynamicColorPickerCoords.y,
-            transform: "translate(-50%, -50%)",
+      <div
+        className={dynamicColorPickerCoords === null ? "hidden" : "absolute"}
+        style={{
+          left: dynamicColorPickerCoords?.x ?? 0,
+          top: dynamicColorPickerCoords?.y ?? 0,
+          transform: "translate(-50%, -50%)",
+        }}
+        onMouseLeave={onMouseLeaveColorPicker}
+      >
+        <ColorPicker
+          className="m-5"
+          open={dynamicColorPickerCoords !== null}
+          value={palette[currentDynamicIndex]}
+          onChange={(value, hex) => {
+            onPaletteIndexUpdated(currentDynamicIndex, hex);
           }}
-          onMouseLeave={onMouseLeaveColorPicker}
-        >
-          <ColorPicker
-            className="m-5"
-            open={true}
-            value={palette[currentDynamicIndex]}
-            onChange={(value, hex) => {
-              onPaletteIndexUpdated(currentDynamicIndex, hex);
-            }}
-          />
-        </div>
-      )}
-
+        />
+      </div>
       <Button
         className="bg-gray-400 mt-5 w-full drop-shadow-xl"
         type="primary"
