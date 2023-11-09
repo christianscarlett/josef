@@ -39,11 +39,16 @@ const getDataFromFileResult = async function (
   img.onload = function () {
     const canvas = document.createElement("canvas");
     // Limit the size of the canvas so we don't have to process too much data later on
-    canvas.width = IMG_CANVAS_SIZE;
-    canvas.height = IMG_CANVAS_SIZE;
+    if (img.width > img.height) {
+      canvas.width = IMG_CANVAS_SIZE;
+      canvas.height = Math.floor((IMG_CANVAS_SIZE * img.height) / img.width);
+    } else {
+      canvas.height = IMG_CANVAS_SIZE;
+      canvas.width = Math.floor((IMG_CANVAS_SIZE * img.width) / img.height);
+    }
     const ctx = canvas.getContext("2d");
     if (ctx !== null) {
-      ctx.drawImage(img, 0, 0);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
       callback(ctx.getImageData(0, 0, canvas.width, canvas.height), result);
     }
   };
