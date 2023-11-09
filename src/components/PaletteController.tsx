@@ -1,4 +1,5 @@
 import { Button, ColorPicker } from "antd";
+import { CloseOutlined } from "@ant-design/icons";
 import { ReactNode, useRef, useState } from "react";
 import { OnImageDataLoaded, getDataFromFiles } from "../model/Image";
 import { generatePaletteFromImageData } from "../model/Model";
@@ -83,6 +84,10 @@ function PaletteController(props: PaletteControllerProps) {
     }
   };
 
+  const onRemoveImageClicked = function () {
+    setPreviewImageData(null);
+  };
+
   const onFileSelected = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const files = e.target.files;
     getDataFromFiles(files, onImageDataLoaded);
@@ -115,46 +120,55 @@ function PaletteController(props: PaletteControllerProps) {
               fileInput.click();
             }}
           >
-            Choose Image
+            Choose Photo
           </Button>
-          <Button
-            className="bg-gray-100 w-fit"
-            type="default"
-            onClick={onRepalettizeClicked}
-            disabled={previewImageData === null}
-          >
-            Re-palettize
-          </Button>
+          {previewImageData && (
+            <Button
+              className="inline-flex items-center border-rose-600 justify-center w-fit mr-2"
+              type="default"
+              icon={<CloseOutlined style={{ color: "rgb(225, 29, 72)" }} />}
+              onClick={onRemoveImageClicked}
+            />
+          )}
         </div>
       </div>
       <div className="flex flex-col items-center">
         <div className="flex mb-2">{pickers}</div>
-        <div className="flex">
+        <div className="flex flex-col items-center justify-center">
+          <div className="flex">
+            <Button
+              className="bg-gray-100 mr-2"
+              type="default"
+              onClick={() => onRandomizeClicked()}
+            >
+              Randomize
+            </Button>
+            <Button
+              className="bg-gray-100"
+              type="default"
+              disabled={palette.length <= 1}
+              onClick={() => {
+                let n = Math.max(1, palette.length - 1);
+                onNumSquaresUpdated(n);
+              }}
+            >
+              -
+            </Button>
+            <Button
+              className="bg-gray-100"
+              type="default"
+              onClick={() => onNumSquaresUpdated(palette.length + 1)}
+            >
+              +
+            </Button>
+          </div>
           <Button
-            className="bg-gray-100 mr-2"
+            className="bg-gray-100 w-fit mt-1"
             type="default"
-            onClick={() => onRandomizeClicked()}
+            onClick={onRepalettizeClicked}
+            disabled={previewImageData === null}
           >
-            Randomize
-          </Button>
-
-          <Button
-            className="bg-gray-100"
-            type="default"
-            disabled={palette.length <= 1}
-            onClick={() => {
-              let n = Math.max(1, palette.length - 1);
-              onNumSquaresUpdated(n);
-            }}
-          >
-            -
-          </Button>
-          <Button
-            className="bg-gray-100"
-            type="default"
-            onClick={() => onNumSquaresUpdated(palette.length + 1)}
-          >
-            +
+            Re-palettize Photo
           </Button>
         </div>
       </div>
