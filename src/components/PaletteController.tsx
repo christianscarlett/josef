@@ -3,6 +3,7 @@ import { CloseOutlined } from "@ant-design/icons";
 import { ReactNode, useRef, useState } from "react";
 import { OnImageDataLoaded, getDataFromFiles } from "../model/Image";
 import { generatePaletteFromImageData } from "../model/Model";
+import { KWorkerInput, KWorkerOutput } from "../model/k.worker";
 
 interface PaletteControllerProps {
   palette: string[];
@@ -63,24 +64,34 @@ function PaletteController(props: PaletteControllerProps) {
 
   const fileInputRef = useRef(null);
 
+  // Worker for generating palettes (k clustering is expensive)
+  const kWorker = new Worker(new URL("../model/k.worker.tsx", import.meta.url));
+  kWorker.onmessage = (e: MessageEvent<any>) => {
+    const data = e.data as unknown as KWorkerOutput;
+    if (data !== null) {
+      onImagePaletteCreated(data.palette);
+    }
+  };
+
+  const requestPalettize = function (imageData: ImageData, numColors: number) {
+    const kWorkerInput: KWorkerInput = {
+      imageData: imageData,
+      numColors: numColors,
+    };
+    kWorker.postMessage(kWorkerInput);
+  };
+
   const onImageDataLoaded: OnImageDataLoaded = function (
     imageData: ImageData,
     src: string
   ) {
     setPreviewImageData(new PreviewImageData(imageData, src));
-    onImagePaletteCreated(
-      generatePaletteFromImageData(imageData, palette.length)
-    );
+    requestPalettize(imageData, palette.length);
   };
 
-  const onRepalettizeClicked = function () {
+  const onRepalettizeClicked = async function () {
     if (previewImageData?.imageData != null) {
-      onImagePaletteCreated(
-        generatePaletteFromImageData(
-          previewImageData?.imageData,
-          palette.length
-        )
-      );
+      requestPalettize(previewImageData.imageData, palette.length);
     }
   };
 
