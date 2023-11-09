@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { CANVAS_SIZE } from "../model/Model";
 import { Texture, getTextureConfig } from "../model/Texture";
 import { Button, ColorPicker } from "antd";
+import { OnPaletteIndexUpdated } from "./PaletteController";
 
 const updateCanvas = function (
   canvas: HTMLCanvasElement,
@@ -84,8 +85,8 @@ const getPaletteIndexAtLocation = function (
   const j = Math.floor(y / (d * (1 - r_h)));
 
   // We must also check against the bottom right because the squares wrap
-  const k = Math.floor(Math.min(CANVAS_SIZE - x, CANVAS_SIZE) / (d * r_w));
-  const l = Math.floor(Math.min(CANVAS_SIZE - y, CANVAS_SIZE) / (d * r_h));
+  const k = Math.floor(Math.max(CANVAS_SIZE - x, 0) / (d * r_w));
+  const l = Math.floor(Math.max(CANVAS_SIZE - y, 0) / (d * r_h));
   return Math.min(i, j, k, l, palette.length - 1);
 };
 
@@ -95,6 +96,7 @@ interface SquareProps {
   horizontalSpacing: number;
   squareSize: number;
   texture: Texture;
+  onPaletteIndexUpdated: OnPaletteIndexUpdated;
 }
 
 interface Coordinates {
@@ -103,13 +105,20 @@ interface Coordinates {
 }
 
 function Square(props: SquareProps) {
-  const { palette, verticalSpacing, horizontalSpacing, squareSize, texture } =
-    props;
+  const {
+    palette,
+    verticalSpacing,
+    horizontalSpacing,
+    squareSize,
+    texture,
+    onPaletteIndexUpdated,
+  } = props;
 
   const canvasRef = useRef(null);
 
   const [dynamicColorPickerCoords, setDynamicColorPickerCoords] =
     useState<Coordinates | null>(null);
+  const [currentDynamicIndex, setCurrentDynamicIndex] = useState(0);
 
   const onCanvasClick = function (
     e: React.MouseEvent<HTMLCanvasElement, MouseEvent>
@@ -119,7 +128,7 @@ function Square(props: SquareProps) {
       return;
     }
     const { pageX, pageY, clientX, clientY } = e;
-    getPaletteIndexAtLocation(
+    const index = getPaletteIndexAtLocation(
       canvas,
       { x: clientX, y: clientY },
       palette,
@@ -127,6 +136,7 @@ function Square(props: SquareProps) {
       horizontalSpacing,
       squareSize
     );
+    setCurrentDynamicIndex(index);
     setDynamicColorPickerCoords({ x: pageX, y: pageY });
   };
 
@@ -167,7 +177,14 @@ function Square(props: SquareProps) {
           }}
           onMouseLeave={onMouseLeaveColorPicker}
         >
-          <ColorPicker className="m-5" />
+          <ColorPicker
+            className="m-5"
+            open={true}
+            value={palette[currentDynamicIndex]}
+            onChange={(value, hex) => {
+              onPaletteIndexUpdated(currentDynamicIndex, hex);
+            }}
+          />
         </div>
       )}
 
