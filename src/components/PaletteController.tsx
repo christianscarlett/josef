@@ -132,7 +132,8 @@ function PaletteController(props: PaletteControllerProps) {
           )}
         </div>
       </div>
-      <div className="flex flex-col items-center">
+      <div className="border-solid border-l border-black self-stretch ml-3 mr-3"></div>
+      <div className="flex flex-col items-center w-full">
         <div className="flex mb-2">{pickers}</div>
         <div className="flex flex-col items-center justify-center">
           <div className="flex">
@@ -162,14 +163,16 @@ function PaletteController(props: PaletteControllerProps) {
               +
             </Button>
           </div>
-          <Button
-            className="bg-gray-100 w-fit mt-1"
-            type="default"
-            onClick={onRepalettizeClicked}
-            disabled={previewImageData === null}
-          >
-            Re-palettize Photo
-          </Button>
+          {previewImageData && (
+            <Button
+              className="bg-gray-100 w-fit mt-2"
+              type="default"
+              onClick={onRepalettizeClicked}
+              disabled={previewImageData === null}
+            >
+              Re-palettize Photo
+            </Button>
+          )}
         </div>
       </div>
     </div>
