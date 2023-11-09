@@ -2,7 +2,6 @@ import { Button, ColorPicker } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { ReactNode, useRef, useState } from "react";
 import { OnImageDataLoaded, getDataFromFiles } from "../model/Image";
-import { generatePaletteFromImageData } from "../model/Model";
 import { KWorkerInput, KWorkerOutput } from "../model/k.worker";
 
 interface PaletteControllerProps {
@@ -62,6 +61,8 @@ function PaletteController(props: PaletteControllerProps) {
   const [previewImageData, setPreviewImageData] =
     useState<PreviewImageData | null>(null);
 
+  const [isPalettizing, setIsPalettizing] = useState(false);
+
   const fileInputRef = useRef(null);
 
   // Worker for generating palettes (k clustering is expensive)
@@ -70,6 +71,7 @@ function PaletteController(props: PaletteControllerProps) {
     const data = e.data as unknown as KWorkerOutput;
     if (data !== null) {
       onImagePaletteCreated(data.palette);
+      setIsPalettizing(false);
     }
   };
 
@@ -78,6 +80,7 @@ function PaletteController(props: PaletteControllerProps) {
       imageData: imageData,
       numColors: numColors,
     };
+    setIsPalettizing(true);
     kWorker.postMessage(kWorkerInput);
   };
 
@@ -151,6 +154,7 @@ function PaletteController(props: PaletteControllerProps) {
             <Button
               className="bg-gray-100 mr-2"
               type="default"
+              disabled={isPalettizing}
               onClick={() => onRandomizeClicked()}
             >
               Randomize
@@ -158,7 +162,7 @@ function PaletteController(props: PaletteControllerProps) {
             <Button
               className="bg-gray-100"
               type="default"
-              disabled={palette.length <= 1}
+              disabled={palette.length <= 1 || isPalettizing}
               onClick={() => {
                 let n = Math.max(1, palette.length - 1);
                 onNumSquaresUpdated(n);
@@ -169,6 +173,7 @@ function PaletteController(props: PaletteControllerProps) {
             <Button
               className="bg-gray-100"
               type="default"
+              disabled={isPalettizing}
               onClick={() => onNumSquaresUpdated(palette.length + 1)}
             >
               +
@@ -178,8 +183,8 @@ function PaletteController(props: PaletteControllerProps) {
             <Button
               className="bg-gray-100 w-fit mt-2"
               type="default"
+              loading={isPalettizing}
               onClick={onRepalettizeClicked}
-              disabled={previewImageData === null}
             >
               Re-palettize Photo
             </Button>
