@@ -62,6 +62,33 @@ const drawTexture = function (
   ctx.drawImage(texture, 0, 0, canvas.width, canvas.height);
 };
 
+const getPaletteIndexAtLocation = function (
+  canvas: HTMLCanvasElement,
+  clickClientCoords: Coordinates,
+  palette: string[],
+  verticalSpacing: number,
+  horizontalSpacing: number,
+  squareSize: number
+): number {
+  // https://stackoverflow.com/questions/55677/how-do-i-get-the-coordinates-of-a-mouse-click-on-a-canvas-element
+  const canvasRect = canvas.getBoundingClientRect();
+  const x = clickClientCoords.x - canvasRect.left;
+  const y = clickClientCoords.y - canvasRect.top;
+
+  const d = Math.round(CANVAS_SIZE * squareSize);
+  const r_h = verticalSpacing;
+  const r_w = horizontalSpacing;
+
+  // i can only possibly be as large as j (and vice versa) so the minimum must be the index.
+  const i = Math.floor(x / (d * (1 - r_w)));
+  const j = Math.floor(y / (d * (1 - r_h)));
+
+  // We must also check against the bottom right because the squares wrap
+  const k = Math.floor(Math.min(CANVAS_SIZE - x, CANVAS_SIZE) / (d * r_w));
+  const l = Math.floor(Math.min(CANVAS_SIZE - y, CANVAS_SIZE) / (d * r_h));
+  return Math.min(i, j, k, l, palette.length - 1);
+};
+
 interface SquareProps {
   palette: string[];
   verticalSpacing: number;
@@ -87,7 +114,19 @@ function Square(props: SquareProps) {
   const onCanvasClick = function (
     e: React.MouseEvent<HTMLCanvasElement, MouseEvent>
   ) {
-    const { pageX, pageY } = e;
+    const canvas = canvasRef.current as unknown as HTMLCanvasElement;
+    if (canvas == null) {
+      return;
+    }
+    const { pageX, pageY, clientX, clientY } = e;
+    getPaletteIndexAtLocation(
+      canvas,
+      { x: clientX, y: clientY },
+      palette,
+      verticalSpacing,
+      horizontalSpacing,
+      squareSize
+    );
     setDynamicColorPickerCoords({ x: pageX, y: pageY });
   };
 
@@ -128,7 +167,7 @@ function Square(props: SquareProps) {
           }}
           onMouseLeave={onMouseLeaveColorPicker}
         >
-          <ColorPicker className="m-6" />
+          <ColorPicker className="m-5" />
         </div>
       )}
 
