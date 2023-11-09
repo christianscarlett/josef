@@ -138,9 +138,9 @@ function PaletteController(props: PaletteControllerProps) {
           </Button>
           {previewImageData && (
             <Button
-              className="inline-flex items-center border-rose-600 justify-center w-fit mr-2"
+              className="inline-flex items-center border-rose-900 justify-center w-fit mr-2"
               type="default"
-              icon={<CloseOutlined style={{ color: "rgb(225, 29, 72)" }} />}
+              icon={<CloseOutlined className="text-rose-900" />}
               onClick={onRemoveImageClicked}
             />
           )}
