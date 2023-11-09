@@ -6,7 +6,6 @@ export const getDataFromFiles = async function (
   files: FileList | null,
   callback: OnImageDataLoaded
 ) {
-  console.log("fromfiles");
   if (files != null) {
     const filesArray = Array.from(files);
     const file = filesArray.at(0);
@@ -20,7 +19,6 @@ const getDataFromFile = async function (
   file: File,
   callback: OnImageDataLoaded
 ) {
-  console.log("fromfile");
   const fileReader = new FileReader();
   fileReader.onload = function () {
     const result = fileReader.result;
@@ -37,7 +35,6 @@ const getDataFromFileResult = async function (
   result: string,
   callback: OnImageDataLoaded
 ) {
-  console.log("fromresult");
   const img = new Image();
   img.onload = function () {
     const canvas = document.createElement("canvas");

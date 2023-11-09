@@ -186,7 +186,7 @@ function PaletteController(props: PaletteControllerProps) {
               loading={isPalettizing}
               onClick={onRepalettizeClicked}
             >
-              Re-palettize Photo
+              Regenerate from Photo
             </Button>
           )}
         </div>
