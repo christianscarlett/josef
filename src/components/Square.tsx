@@ -81,11 +81,11 @@ const getPaletteIndexAtLocation = function (
   const r_w = horizontalSpacing;
 
   // i can only possibly be as large as j (and vice versa) so the minimum must be the index.
-  const i = Math.floor(x / (d * (1 - r_w)));
+  const i = Math.floor(x / (d * r_w));
   const j = Math.floor(y / (d * (1 - r_h)));
 
   // We must also check against the bottom right because the squares wrap
-  const k = Math.floor(Math.max(CANVAS_SIZE - x, 0) / (d * r_w));
+  const k = Math.floor(Math.max(CANVAS_SIZE - x, 0) / (d * (1 - r_w)));
   const l = Math.floor(Math.max(CANVAS_SIZE - y, 0) / (d * r_h));
   return Math.min(i, j, k, l, palette.length - 1);
 };
