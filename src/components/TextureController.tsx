@@ -7,13 +7,19 @@ export interface onTextureUpdated {
 
 interface TextureControllerProps {
   texture: Texture;
+  isMobile: boolean;
   onTextureUpdated: onTextureUpdated;
 }
 
 function TextureController(props: TextureControllerProps) {
-  const { texture, onTextureUpdated } = props;
+  const { texture, isMobile, onTextureUpdated } = props;
   return (
-    <div className="flex justify-center items-center w-full">
+    <div
+      className={
+        "flex items-center w-full " +
+        (isMobile ? "justify-start overflow-x-scroll" : "justify-center")
+      }
+    >
       <Segmented
         value={texture}
         options={Object.values(Texture)}

@@ -82,6 +82,7 @@ function Controls(props: ControlsProps) {
         controller={
           <TextureController
             texture={texture}
+            isMobile={isMobile}
             onTextureUpdated={onTextureUpdated}
           />
         }
