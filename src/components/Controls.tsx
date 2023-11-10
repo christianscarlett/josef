@@ -106,6 +106,7 @@ function Controls(props: ControlsProps) {
         controller={
           <SpacingController
             spacing={verticalSpacing}
+            isMobile={isMobile}
             onSpacingUpdated={onVerticalSpacingUpdated}
           />
         }
@@ -117,6 +118,7 @@ function Controls(props: ControlsProps) {
         controller={
           <SpacingController
             spacing={horizontalSpacing}
+            isMobile={isMobile}
             onSpacingUpdated={onHorizontalSpacingUpdated}
           />
         }

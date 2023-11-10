@@ -7,6 +7,7 @@ export interface OnSpacingUpdated {
 
 interface SpacingControllerProps {
   spacing: number;
+  isMobile: boolean;
   onSpacingUpdated: OnSpacingUpdated;
 }
 
@@ -60,7 +61,7 @@ const spacingToSpacingOption = function (spacing: number): SpacingOption {
 };
 
 function SpacingController(props: SpacingControllerProps) {
-  const { spacing, onSpacingUpdated } = props;
+  const { spacing, isMobile, onSpacingUpdated } = props;
 
   const [spacingOption, setSpacingOption] = useState(
     spacingToSpacingOption(spacing)
@@ -70,22 +71,25 @@ function SpacingController(props: SpacingControllerProps) {
   return (
     <div className="flex flex-col items-center w-full">
       <p className="mb-2">{friendlyRatio}</p>
-      <Segmented
-        className="mb-2"
-        value={spacingOption}
-        options={[
-          SpacingOption.OneToThree,
-          SpacingOption.OneToE,
-          SpacingOption.GoldenRatio,
-          SpacingOption.Even,
-          SpacingOption.Custom,
-        ]}
-        onChange={(value) => {
-          const v = value as unknown as SpacingOption;
-          setSpacingOption(v);
-          onSpacingUpdated(spacingOptionToSpacing(v, spacing));
-        }}
-      />
+
+      <div className={isMobile ? "w-full overflow-x-scroll" : ""}>
+        <Segmented
+          className="mb-2"
+          value={spacingOption}
+          options={[
+            SpacingOption.OneToThree,
+            SpacingOption.OneToE,
+            SpacingOption.GoldenRatio,
+            SpacingOption.Even,
+            SpacingOption.Custom,
+          ]}
+          onChange={(value) => {
+            const v = value as unknown as SpacingOption;
+            setSpacingOption(v);
+            onSpacingUpdated(spacingOptionToSpacing(v, spacing));
+          }}
+        />
+      </div>
       <div className="w-full">
         <Slider
           value={spacing}
