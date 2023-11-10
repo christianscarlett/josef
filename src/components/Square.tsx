@@ -125,6 +125,10 @@ function Square(props: SquareProps) {
   const onCanvasClick = function (
     e: React.MouseEvent<HTMLCanvasElement, MouseEvent>
   ) {
+    if (dynamicColorPickerCoords !== null) {
+      setDynamicColorPickerCoords(null);
+      return;
+    }
     const canvas = canvasRef.current as unknown as HTMLCanvasElement;
     if (canvas == null) {
       return;
