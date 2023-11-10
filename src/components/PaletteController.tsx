@@ -171,7 +171,13 @@ function PaletteController(props: PaletteControllerProps) {
         }
       ></div>
       <div className="flex flex-col items-center w-full">
-        <div className="flex mb-2 max-w-full overflow-x-scroll">{pickers}</div>
+        <div
+          className={
+            "flex mb-2 max-w-full " + (isMobile ? "overflow-x-scroll" : "")
+          }
+        >
+          {pickers}
+        </div>
         <div className="flex flex-col items-center justify-center">
           <div className="flex">
             <Button
