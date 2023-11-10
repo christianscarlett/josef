@@ -94,6 +94,7 @@ function Controls(props: ControlsProps) {
         controller={
           <SquareSizeController
             squareSize={squareSize}
+            isMobile={isMobile}
             onSquareSizeUpdated={onSquareSizeUpdated}
           />
         }

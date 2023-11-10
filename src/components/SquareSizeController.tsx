@@ -7,6 +7,7 @@ export interface OnSquareSizeUpdated {
 
 interface SquareSizeControllerProps {
   squareSize: number;
+  isMobile: boolean;
   onSquareSizeUpdated: OnSquareSizeUpdated;
 }
 
@@ -56,22 +57,24 @@ const squareSizeToSquareSizeOption = function (
 };
 
 function SquareSizeController(props: SquareSizeControllerProps) {
-  const { squareSize, onSquareSizeUpdated } = props;
+  const { squareSize, isMobile, onSquareSizeUpdated } = props;
   const [squareSizeOption, setSquareSizeOption] = useState(
     squareSizeToSquareSizeOption(squareSize)
   );
   return (
     <div className="flex flex-col items-center w-full">
-      <Segmented
-        value={squareSizeOption}
-        options={Object.values(SquareSizeOption)}
-        onChange={(o) => {
-          const option = o as unknown as SquareSizeOption;
-          const value = squareSizeOptionToValue(option, squareSize);
-          setSquareSizeOption(option);
-          onSquareSizeUpdated(value);
-        }}
-      />
+      <div className={isMobile ? "w-full overflow-x-scroll" : ""}>
+        <Segmented
+          value={squareSizeOption}
+          options={Object.values(SquareSizeOption)}
+          onChange={(o) => {
+            const option = o as unknown as SquareSizeOption;
+            const value = squareSizeOptionToValue(option, squareSize);
+            setSquareSizeOption(option);
+            onSquareSizeUpdated(value);
+          }}
+        />
+      </div>
       <div className="w-full">
         <Slider
           value={squareSize}
