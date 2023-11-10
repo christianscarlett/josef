@@ -122,7 +122,7 @@ function PaletteController(props: PaletteControllerProps) {
   });
 
   const wrapperClassName = isMobile
-    ? "flex flex-col items-center"
+    ? "flex flex-col items-center w-full"
     : "flex items-center justify-around w-full";
 
   return (

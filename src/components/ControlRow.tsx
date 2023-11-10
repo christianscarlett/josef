@@ -14,7 +14,7 @@ function ControlRow(props: ControlRowProps) {
   return (
     <div
       className={
-        "flex" +
+        "flex " +
         (isMobile ? "flex-col" : "") +
         " items-center justify-center bg-white/30 p-3 rounded backdrop-blur-sm drop-shadow-2xl mb-5 w-full"
       }
