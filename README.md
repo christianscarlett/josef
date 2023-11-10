@@ -1,3 +1,7 @@
+# Josef Albers "Homage to the Square" Generator
+
+Generate an image using inset squares in the style of Josef Albers.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
