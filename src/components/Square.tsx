@@ -196,7 +196,8 @@ function Square(props: SquareProps) {
         type="primary"
         onClick={() => {
           const link = document.createElement("a");
-          link.download = "josef_square_generated.png";
+          const seconds = Math.floor(new Date().getTime() / 1000);
+          link.download = `josef_square_generated_${seconds}.png`;
           const canvas = canvasRef.current as unknown as HTMLCanvasElement;
           if (canvas != null) {
             link.href = canvas.toDataURL();
