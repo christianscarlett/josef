@@ -25,4 +25,7 @@ function TextureController(props: TextureControllerProps) {
   );
 }
 
+export const textureControllerDescription: string =
+  "Apply a texture to the canvas by clicking an option.";
+
 export default TextureController;

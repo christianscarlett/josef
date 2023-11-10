@@ -108,4 +108,10 @@ function SpacingController(props: SpacingControllerProps) {
   );
 }
 
+export const verticalSpacingControllerDescription: string =
+  "Choose the ratio of the height of the bottom of the square to the height of the top.";
+
+export const horizontalSpacingControllerDescription: string =
+  "Choose the ratio of the width of the left of the square to the width of the right.";
+
 export default SpacingController;

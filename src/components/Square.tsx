@@ -141,7 +141,6 @@ function Square(props: SquareProps) {
   };
 
   const onMouseLeaveColorPicker = function () {
-    console.log("here");
     setDynamicColorPickerCoords(null);
   };
 
@@ -159,7 +158,6 @@ function Square(props: SquareProps) {
     }
   });
 
-  console.log(dynamicColorPickerCoords);
   return (
     <>
       <canvas

@@ -5,12 +5,21 @@ import PaletteController, {
   OnNumSquaresUpdated,
   OnRandomizeClicked,
   OnImagePaletteCreated,
+  paletteControllerDescription,
 } from "./PaletteController";
-import SpacingController, { OnSpacingUpdated } from "./SpacingController";
+import SpacingController, {
+  OnSpacingUpdated,
+  horizontalSpacingControllerDescription,
+  verticalSpacingControllerDescription,
+} from "./SpacingController";
 import SquareSizeController, {
   OnSquareSizeUpdated,
+  squareSizeControllerDescription,
 } from "./SquareSizeController";
-import TextureController, { onTextureUpdated } from "./TextureController";
+import TextureController, {
+  onTextureUpdated,
+  textureControllerDescription,
+} from "./TextureController";
 
 interface ControlsProps {
   palette: string[];
@@ -58,6 +67,7 @@ function Controls(props: ControlsProps) {
             onImagePaletteCreated={onImagePaletteCreated}
           />
         }
+        tooltipTitle={paletteControllerDescription}
       />
       <ControlRow
         title="Texture"
@@ -67,6 +77,7 @@ function Controls(props: ControlsProps) {
             onTextureUpdated={onTextureUpdated}
           />
         }
+        tooltipTitle={textureControllerDescription}
       />
       <ControlRow
         title="Vertical Spacing"
@@ -76,6 +87,7 @@ function Controls(props: ControlsProps) {
             onSpacingUpdated={onVerticalSpacingUpdated}
           />
         }
+        tooltipTitle={verticalSpacingControllerDescription}
       />
       <ControlRow
         title="Horizontal Spacing"
@@ -85,6 +97,7 @@ function Controls(props: ControlsProps) {
             onSpacingUpdated={onHorizontalSpacingUpdated}
           />
         }
+        tooltipTitle={horizontalSpacingControllerDescription}
       />
       <ControlRow
         title="Square Size"
@@ -94,6 +107,7 @@ function Controls(props: ControlsProps) {
             onSquareSizeUpdated={onSquareSizeUpdated}
           />
         }
+        tooltipTitle={squareSizeControllerDescription}
       />
     </div>
   );

@@ -91,4 +91,7 @@ function SquareSizeController(props: SquareSizeControllerProps) {
   );
 }
 
+export const squareSizeControllerDescription: string =
+  "Choose how much height/width each square should take from the canvas.";
+
 export default SquareSizeController;

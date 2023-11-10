@@ -195,4 +195,7 @@ function PaletteController(props: PaletteControllerProps) {
   );
 }
 
+export const paletteControllerDescription: string =
+  'Create the palette used for the squares. Clicking a color in the palette will let you pick the color for the corresponding square. You can add or subtract squares and colors by clicking "+" or "-". You can optionally upload a photo and create a palette from colors in the photo.';
+
 export default PaletteController;
