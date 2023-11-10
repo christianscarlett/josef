@@ -80,6 +80,16 @@ function Controls(props: ControlsProps) {
         tooltipTitle={textureControllerDescription}
       />
       <ControlRow
+        title="Square Size"
+        controller={
+          <SquareSizeController
+            squareSize={squareSize}
+            onSquareSizeUpdated={onSquareSizeUpdated}
+          />
+        }
+        tooltipTitle={squareSizeControllerDescription}
+      />
+      <ControlRow
         title="Vertical Spacing"
         controller={
           <SpacingController
@@ -98,16 +108,6 @@ function Controls(props: ControlsProps) {
           />
         }
         tooltipTitle={horizontalSpacingControllerDescription}
-      />
-      <ControlRow
-        title="Square Size"
-        controller={
-          <SquareSizeController
-            squareSize={squareSize}
-            onSquareSizeUpdated={onSquareSizeUpdated}
-          />
-        }
-        tooltipTitle={squareSizeControllerDescription}
       />
     </div>
   );
