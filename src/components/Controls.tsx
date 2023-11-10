@@ -27,6 +27,7 @@ interface ControlsProps {
   horizontalSpacing: number;
   squareSize: number;
   texture: Texture;
+  isMobile: boolean;
   onNumSquaresUpdated: OnNumSquaresUpdated;
   onPaletteIndexUpdated: OnPaletteIndexUpdated;
   onVerticalSpacingUpdated: OnSpacingUpdated;
@@ -44,6 +45,7 @@ function Controls(props: ControlsProps) {
     horizontalSpacing,
     squareSize,
     texture,
+    isMobile,
     onNumSquaresUpdated,
     onPaletteIndexUpdated,
     onVerticalSpacingUpdated,
@@ -55,12 +57,17 @@ function Controls(props: ControlsProps) {
   } = props;
 
   return (
-    <div className="flex flex-col items-start">
+    <div
+      className={
+        "flex flex-col items-start " + (isMobile ? "w-screen px-2" : "")
+      }
+    >
       <ControlRow
         title="Palette"
         controller={
           <PaletteController
             palette={palette}
+            isMobile={isMobile}
             onPaletteIndexUpdated={onPaletteIndexUpdated}
             onNumSquaresUpdated={onNumSquaresUpdated}
             onRandomizeClicked={onRandomizeClicked}
@@ -68,6 +75,7 @@ function Controls(props: ControlsProps) {
           />
         }
         tooltipTitle={paletteControllerDescription}
+        isMobile={isMobile}
       />
       <ControlRow
         title="Texture"
@@ -78,6 +86,7 @@ function Controls(props: ControlsProps) {
           />
         }
         tooltipTitle={textureControllerDescription}
+        isMobile={isMobile}
       />
       <ControlRow
         title="Square Size"
@@ -88,6 +97,7 @@ function Controls(props: ControlsProps) {
           />
         }
         tooltipTitle={squareSizeControllerDescription}
+        isMobile={isMobile}
       />
       <ControlRow
         title="Vertical Spacing"
@@ -98,6 +108,7 @@ function Controls(props: ControlsProps) {
           />
         }
         tooltipTitle={verticalSpacingControllerDescription}
+        isMobile={isMobile}
       />
       <ControlRow
         title="Horizontal Spacing"
@@ -108,6 +119,7 @@ function Controls(props: ControlsProps) {
           />
         }
         tooltipTitle={horizontalSpacingControllerDescription}
+        isMobile={isMobile}
       />
     </div>
   );

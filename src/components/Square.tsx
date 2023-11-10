@@ -161,7 +161,7 @@ function Square(props: SquareProps) {
   }, [palette, verticalSpacing, horizontalSpacing, squareSize, texture]);
 
   return (
-    <>
+    <div className="px-2">
       <canvas
         ref={canvasRef}
         className="border-solid border-2 drop-shadow-xl w-full"
@@ -202,7 +202,7 @@ function Square(props: SquareProps) {
       >
         Download
       </Button>
-    </>
+    </div>
   );
 }
 

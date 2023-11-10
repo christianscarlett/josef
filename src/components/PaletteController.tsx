@@ -6,6 +6,7 @@ import { KWorkerInput, KWorkerOutput } from "../model/k.worker";
 
 interface PaletteControllerProps {
   palette: string[];
+  isMobile: boolean;
   onPaletteIndexUpdated: OnPaletteIndexUpdated;
   onNumSquaresUpdated: OnNumSquaresUpdated;
   onRandomizeClicked: OnRandomizeClicked;
@@ -57,23 +58,12 @@ kWorker.onmessage = (e: MessageEvent<any>) => {
 function PaletteController(props: PaletteControllerProps) {
   const {
     palette,
+    isMobile,
     onPaletteIndexUpdated,
     onNumSquaresUpdated,
     onRandomizeClicked,
     onImagePaletteCreated,
   } = props;
-
-  const pickers: ReactNode[] = palette.map((color, i) => {
-    return (
-      <ColorPicker
-        value={color}
-        onChange={(value, hex) => {
-          onPaletteIndexUpdated(i, hex);
-        }}
-        key={i}
-      />
-    );
-  });
 
   const [previewImageData, setPreviewImageData] =
     useState<PreviewImageData | null>(null);
@@ -119,8 +109,24 @@ function PaletteController(props: PaletteControllerProps) {
     getDataFromFiles(files, onImageDataLoaded);
   };
 
+  const pickers: ReactNode[] = palette.map((color, i) => {
+    return (
+      <ColorPicker
+        value={color}
+        onChange={(value, hex) => {
+          onPaletteIndexUpdated(i, hex);
+        }}
+        key={i}
+      />
+    );
+  });
+
+  const wrapperClassName = isMobile
+    ? "flex flex-col items-center"
+    : "flex items-center justify-around w-full";
+
   return (
-    <div className="flex items-center justify-around w-full">
+    <div className={wrapperClassName}>
       <div className="flex flex-col justify-center items-center">
         <input
           ref={fileInputRef}
@@ -158,9 +164,14 @@ function PaletteController(props: PaletteControllerProps) {
           )}
         </div>
       </div>
-      <div className="border-solid border-l border-black self-stretch ml-3 mr-3"></div>
+      <div
+        className={
+          "border-solid border-l border-b border-black self-stretch " +
+          (isMobile ? "my-3" : "mx-3")
+        }
+      ></div>
       <div className="flex flex-col items-center w-full">
-        <div className="flex mb-2">{pickers}</div>
+        <div className="flex mb-2 max-w-full overflow-x-scroll">{pickers}</div>
         <div className="flex flex-col items-center justify-center">
           <div className="flex">
             <Button
