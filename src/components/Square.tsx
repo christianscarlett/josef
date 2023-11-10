@@ -76,7 +76,9 @@ const getPaletteIndexAtLocation = function (
   const x = clickClientCoords.x - canvasRect.left;
   const y = clickClientCoords.y - canvasRect.top;
 
-  const d = Math.round(CANVAS_SIZE * squareSize);
+  const scale = canvasRect.width / CANVAS_SIZE;
+
+  const d = Math.round(CANVAS_SIZE * scale * squareSize);
   const r_h = verticalSpacing;
   const r_w = horizontalSpacing;
 
@@ -162,7 +164,7 @@ function Square(props: SquareProps) {
     <>
       <canvas
         ref={canvasRef}
-        className="border-solid border-2 drop-shadow-xl"
+        className="border-solid border-2 drop-shadow-xl w-full"
         width={CANVAS_SIZE}
         height={CANVAS_SIZE}
         onClick={onCanvasClick}

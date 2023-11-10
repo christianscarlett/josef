@@ -3,7 +3,7 @@ import Josef from "./pages/Josef";
 
 function App() {
   return (
-    <div className="App h-full">
+    <div className="App h-full overflow-x-hidden">
       <Josef />
     </div>
   );
