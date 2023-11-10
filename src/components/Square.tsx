@@ -156,7 +156,7 @@ function Square(props: SquareProps) {
         texture
       );
     }
-  });
+  }, [palette, verticalSpacing, horizontalSpacing, squareSize, texture]);
 
   return (
     <>

@@ -37,6 +37,23 @@ class PreviewImageData {
   }
 }
 
+interface KWorkerCallback {
+  (newPalette: string[]): void;
+}
+
+let kWorkerCallback: KWorkerCallback | null = null;
+
+// Worker for generating palettes (k clustering is expensive)
+const kWorker = new Worker(new URL("../model/k.worker.tsx", import.meta.url));
+kWorker.onmessage = (e: MessageEvent<any>) => {
+  const data = e.data as unknown as KWorkerOutput;
+  if (data !== null) {
+    if (kWorkerCallback != null) {
+      kWorkerCallback(data.palette);
+    }
+  }
+};
+
 function PaletteController(props: PaletteControllerProps) {
   const {
     palette,
@@ -65,14 +82,9 @@ function PaletteController(props: PaletteControllerProps) {
 
   const fileInputRef = useRef(null);
 
-  // Worker for generating palettes (k clustering is expensive)
-  const kWorker = new Worker(new URL("../model/k.worker.tsx", import.meta.url));
-  kWorker.onmessage = (e: MessageEvent<any>) => {
-    const data = e.data as unknown as KWorkerOutput;
-    if (data !== null) {
-      onImagePaletteCreated(data.palette);
-      setIsPalettizing(false);
-    }
+  kWorkerCallback = (newPalette: string[]) => {
+    onImagePaletteCreated(newPalette);
+    setIsPalettizing(false);
   };
 
   const requestPalettize = function (imageData: ImageData, numColors: number) {
