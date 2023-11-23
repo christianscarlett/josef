@@ -17,10 +17,11 @@ function TextureController(props: TextureControllerProps) {
     <div
       className={
         "flex items-center w-full " +
-        (isMobile ? "justify-start overflow-x-scroll" : "justify-center")
+        (isMobile ? "overflow-x-scroll" : "justify-center")
       }
     >
       <Segmented
+        className={isMobile ? "ml-auto mr-auto" : ""}
         value={texture}
         options={Object.values(Texture)}
         onChange={(t) => {

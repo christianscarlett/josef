@@ -63,8 +63,9 @@ function SquareSizeController(props: SquareSizeControllerProps) {
   );
   return (
     <div className="flex flex-col items-center w-full">
-      <div className={isMobile ? "w-full overflow-x-scroll" : ""}>
+      <div className={isMobile ? "w-full overflow-x-scroll flex" : ""}>
         <Segmented
+          className={isMobile ? "ml-auto mr-auto" : ""}
           value={squareSizeOption}
           options={Object.values(SquareSizeOption)}
           onChange={(o) => {

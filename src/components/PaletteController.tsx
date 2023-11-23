@@ -144,7 +144,7 @@ function PaletteController(props: PaletteControllerProps) {
         )}
         <div className="flex items-center justify-center">
           <Button
-            className="bg-gray-100 w-fit mr-2"
+            className="bg-gray-100 w-fit"
             type="default"
             onClick={() => {
               const fileInput =
@@ -156,7 +156,7 @@ function PaletteController(props: PaletteControllerProps) {
           </Button>
           {previewImageData && (
             <Button
-              className="inline-flex items-center border-rose-900 justify-center w-fit mr-2"
+              className="inline-flex items-center border-rose-900 justify-center w-fit ml-2"
               type="default"
               icon={<CloseOutlined className="text-rose-900" />}
               onClick={onRemoveImageClicked}

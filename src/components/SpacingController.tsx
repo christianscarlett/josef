@@ -72,9 +72,9 @@ function SpacingController(props: SpacingControllerProps) {
     <div className="flex flex-col items-center w-full">
       <p className="mb-2">{friendlyRatio}</p>
 
-      <div className={isMobile ? "w-full overflow-x-scroll" : ""}>
+      <div className={isMobile ? "w-full overflow-x-scroll flex" : ""}>
         <Segmented
-          className="mb-2"
+          className={"mb-2 " + (isMobile ? "ml-auto mr-auto" : "")}
           value={spacingOption}
           options={[
             SpacingOption.OneToThree,
