@@ -73,12 +73,13 @@ const getPaletteIndexAtLocation = function (
 ): number {
   // https://stackoverflow.com/questions/55677/how-do-i-get-the-coordinates-of-a-mouse-click-on-a-canvas-element
   const canvasRect = canvas.getBoundingClientRect();
-  const x = clickClientCoords.x - canvasRect.left;
-  const y = clickClientCoords.y - canvasRect.top;
 
   const scale = canvasRect.width / CANVAS_SIZE;
 
-  const d = Math.round(CANVAS_SIZE * scale * squareSize);
+  const x = (clickClientCoords.x - canvasRect.left) / scale;
+  const y = (clickClientCoords.y - canvasRect.top) / scale;
+
+  const d = Math.round(CANVAS_SIZE * squareSize);
   const r_h = verticalSpacing;
   const r_w = horizontalSpacing;
 
@@ -89,6 +90,7 @@ const getPaletteIndexAtLocation = function (
   // We must also check against the bottom right because the squares wrap
   const k = Math.floor(Math.max(CANVAS_SIZE - x, 0) / (d * (1 - r_w)));
   const l = Math.floor(Math.max(CANVAS_SIZE - y, 0) / (d * r_h));
+
   return Math.min(i, j, k, l, palette.length - 1);
 };
 
