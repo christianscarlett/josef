@@ -5,6 +5,8 @@ import "./Josef.css";
 import { generateRandomPalette, updateRandomPalette } from "../model/Model";
 import { Texture } from "../model/Texture";
 import { OnPaletteIndexUpdated } from "../components/PaletteController";
+import { InfoCircleOutlined } from "@ant-design/icons";
+import { Tooltip } from "antd";
 
 const isWindowSizeSmall = function () {
   return window.innerWidth < 768;
@@ -39,9 +41,19 @@ function Josef() {
 
   return (
     <div className="Josef min-h-screen w-full flex flex-col items-center justify-center">
-      <h1 className="text-2xl text-center mb-10 mt-10">
-        Josef Albers "Homage to the Square" Generator
-      </h1>
+      <div className="flex flex-col items-center justify-center bg-white/30 p-3 rounded backdrop-blur-sm drop-shadow-2xl mb-8 mt-8 mx-2">
+        <h1 className="text-2xl text-center my-2 mx-2">
+          Josef Albers "Homage to the Square" Generator
+        </h1>
+
+        <Tooltip
+          className="flex mb-2 opacity-70 hover:opacity-100 hover:cursor-pointer text-sm"
+          title={josefDescription}
+        >
+          <p>What is this?</p>
+          <InfoCircleOutlined className="ml-2 hover:text-black" />
+        </Tooltip>
+      </div>
       <div className="flex flex-col items-center justify-center mb-5">
         <Square
           palette={palette}
@@ -85,5 +97,8 @@ function Josef() {
     </div>
   );
 }
+
+const josefDescription =
+  "I made this in appreciation of the “Homage to the Square” series by Josef Albers. This is a tool to generate your own Square paintings by choosing the colors, spacing, and texture of the squares. See the controls below to start creating!";
 
 export default Josef;
