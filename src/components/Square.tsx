@@ -89,9 +89,17 @@ const updateCanvas = function (
         ctx.direction = 'ltr';
       }
 
-      const text = `${((measureScale * width_mark) / CANVAS_SIZE).toFixed(
+      const friendlyWidth = ((measureScale * width_mark) / CANVAS_SIZE).toFixed(
         3
-      )}, ${((measureScale * height_mark) / CANVAS_SIZE).toFixed(3)}`;
+      );
+      const friendlyHeight = (
+        (measureScale * height_mark) /
+        CANVAS_SIZE
+      ).toFixed(4);
+
+      const text = isSecondHalf
+        ? `${friendlyHeight} ,${friendlyWidth}`
+        : `${friendlyWidth}, ${friendlyHeight}`;
 
       ctx.fillStyle = '#FFFFFF';
       ctx.fillText(text, x, y);
@@ -281,6 +289,9 @@ function Square(props: SquareProps) {
       </div>
       {showMeasurements && (
         <div className="w-full mt-2 flex items-center justify-center">
+          <p className="mr-2">
+            Scale {'('}in/cm/etc{')'}:
+          </p>
           <InputNumber
             min={0}
             defaultValue={measureScale}
