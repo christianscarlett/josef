@@ -1,4 +1,4 @@
-import { Button, ColorPicker } from 'antd';
+import { Button, Checkbox, ColorPicker, InputNumber } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { CANVAS_SIZE } from '../model/Model';
 import { Texture, getTextureConfig } from '../model/Texture';
@@ -15,7 +15,8 @@ const updateCanvas = function (
   horizontalSpacing: number,
   squareSize: number,
   texture: Texture,
-  mouseOnCanvas: boolean
+  showMeasurements: boolean,
+  measureScale: number
 ): [number[], number[]] {
   const ctx = canvas.getContext('2d');
   if (ctx == null) {
@@ -66,7 +67,7 @@ const updateCanvas = function (
   }
 
   /* Draw markers */
-  if (mouseOnCanvas) {
+  if (showMeasurements) {
     width_markers.sort(compareFn);
     height_markers.sort(compareFn);
 
@@ -88,9 +89,9 @@ const updateCanvas = function (
         ctx.direction = 'ltr';
       }
 
-      const text = `${(width_mark / CANVAS_SIZE).toFixed(2)}, ${(
-        height_mark / CANVAS_SIZE
-      ).toFixed(2)}`;
+      const text = `${((measureScale * width_mark) / CANVAS_SIZE).toFixed(
+        3
+      )}, ${((measureScale * height_mark) / CANVAS_SIZE).toFixed(3)}`;
 
       ctx.fillStyle = '#FFFFFF';
       ctx.fillText(text, x, y);
@@ -171,7 +172,8 @@ function Square(props: SquareProps) {
     useState<Coordinates | null>(null);
   const [currentDynamicIndex, setCurrentDynamicIndex] = useState(0);
 
-  const [mouseOnCanvas, setMouseOnCanvas] = useState(false);
+  const [showMeasurements, setShowMeasurements] = useState(false);
+  const [measureScale, setMeasureScale] = useState(1);
 
   const onCanvasClick = function (
     e: React.MouseEvent<HTMLCanvasElement, MouseEvent>
@@ -201,21 +203,19 @@ function Square(props: SquareProps) {
     setDynamicColorPickerCoords(null);
   };
 
-  const [markers, setMarkers] = useState<[number[], number[]]>([[], []]);
-
   useEffect(() => {
     let canvas = canvasRef.current as unknown as HTMLCanvasElement;
     if (canvas != null) {
-      const markers = updateCanvas(
+      updateCanvas(
         canvas,
         palette,
         verticalSpacing,
         horizontalSpacing,
         squareSize,
         texture,
-        mouseOnCanvas
+        showMeasurements,
+        measureScale
       );
-      setMarkers(markers);
     }
   }, [
     palette,
@@ -223,7 +223,8 @@ function Square(props: SquareProps) {
     horizontalSpacing,
     squareSize,
     texture,
-    mouseOnCanvas,
+    showMeasurements,
+    measureScale,
   ]);
 
   return (
@@ -234,8 +235,6 @@ function Square(props: SquareProps) {
         width={CANVAS_SIZE}
         height={CANVAS_SIZE}
         onClick={onCanvasClick}
-        onMouseEnter={() => setMouseOnCanvas(true)}
-        onMouseLeave={() => setMouseOnCanvas(false)}
       ></canvas>
       <div
         className={dynamicColorPickerCoords === null ? 'hidden' : 'absolute'}
@@ -255,16 +254,6 @@ function Square(props: SquareProps) {
           }}
         />
       </div>
-      {mouseOnCanvas && (
-        <div className="max-w-full">
-          <p className="text-wrap">
-            Width Markers: {JSON.stringify(markers[0])}
-          </p>
-          <p className="text-wrap">
-            Height Markers: {JSON.stringify(markers[1])}
-          </p>
-        </div>
-      )}
       <Button
         className="bg-gray-400 mt-5 w-full drop-shadow-xl"
         type="primary"
@@ -281,6 +270,24 @@ function Square(props: SquareProps) {
       >
         Download
       </Button>
+
+      <div className="w-full mt-5 flex items-center justify-center">
+        <Checkbox
+          value={showMeasurements}
+          onChange={(e) => setShowMeasurements(e.target.checked)}
+        >
+          Show measurements
+        </Checkbox>
+      </div>
+      {showMeasurements && (
+        <div className="w-full mt-2 flex items-center justify-center">
+          <InputNumber
+            min={0}
+            defaultValue={measureScale}
+            onChange={(e) => setMeasureScale(e ?? measureScale)}
+          />
+        </div>
+      )}
     </div>
   );
 }
