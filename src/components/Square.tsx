@@ -1,8 +1,12 @@
-import { useEffect, useRef, useState } from "react";
-import { CANVAS_SIZE } from "../model/Model";
-import { Texture, getTextureConfig } from "../model/Texture";
-import { Button, ColorPicker } from "antd";
-import { OnPaletteIndexUpdated } from "./PaletteController";
+import { Button, ColorPicker } from 'antd';
+import { useEffect, useRef, useState } from 'react';
+import { CANVAS_SIZE } from '../model/Model';
+import { Texture, getTextureConfig } from '../model/Texture';
+import { OnPaletteIndexUpdated } from './PaletteController';
+
+const compareFn = function (a: any, b: any) {
+  return +a - +b;
+};
 
 const updateCanvas = function (
   canvas: HTMLCanvasElement,
@@ -10,11 +14,12 @@ const updateCanvas = function (
   verticalSpacing: number,
   horizontalSpacing: number,
   squareSize: number,
-  texture: Texture
-) {
-  const ctx = canvas.getContext("2d");
+  texture: Texture,
+  mouseOnCanvas: boolean
+): [number[], number[]] {
+  const ctx = canvas.getContext('2d');
   if (ctx == null) {
-    return;
+    return [[], []];
   }
   const height = canvas.height;
   const width = canvas.width;
@@ -24,6 +29,9 @@ const updateCanvas = function (
   const r_h = verticalSpacing;
   // Ratio of left spacing to right spacing
   const r_w = horizontalSpacing;
+
+  const width_markers: number[] = [];
+  const height_markers: number[] = [];
 
   palette.forEach((color, i) => {
     const d = d_init * i;
@@ -36,6 +44,9 @@ const updateCanvas = function (
     if (w < 0 || h < 0) {
       return;
     }
+
+    width_markers.push(...[x, x + w]);
+    height_markers.push(...[y, y + h]);
 
     ctx.fillStyle = color;
     ctx.fillRect(x, y, w, h);
@@ -53,6 +64,42 @@ const updateCanvas = function (
       };
     }
   }
+
+  /* Draw markers */
+  if (mouseOnCanvas) {
+    width_markers.sort(compareFn);
+    height_markers.sort(compareFn);
+
+    const fontSize = 20;
+    ctx.font = `${fontSize}px sans-serif`;
+
+    for (let i = 0; i < width_markers.length; i++) {
+      const width_mark = width_markers[i];
+      const height_mark = height_markers[i];
+
+      const isSecondHalf = i >= width_markers.length / 2;
+
+      const x = width_mark;
+      const y = height_mark + (!isSecondHalf ? fontSize : 0);
+
+      if (isSecondHalf) {
+        ctx.direction = 'rtl';
+      } else {
+        ctx.direction = 'ltr';
+      }
+
+      const text = `${(width_mark / CANVAS_SIZE).toFixed(2)}, ${(
+        height_mark / CANVAS_SIZE
+      ).toFixed(2)}`;
+
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillText(text, x, y);
+      ctx.fillStyle = '#000000';
+      ctx.strokeText(text, x, y);
+    }
+  }
+
+  return [width_markers, height_markers];
 };
 
 const drawTexture = function (
@@ -118,11 +165,13 @@ function Square(props: SquareProps) {
     onPaletteIndexUpdated,
   } = props;
 
-  const canvasRef = useRef(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const [dynamicColorPickerCoords, setDynamicColorPickerCoords] =
     useState<Coordinates | null>(null);
   const [currentDynamicIndex, setCurrentDynamicIndex] = useState(0);
+
+  const [mouseOnCanvas, setMouseOnCanvas] = useState(false);
 
   const onCanvasClick = function (
     e: React.MouseEvent<HTMLCanvasElement, MouseEvent>
@@ -152,35 +201,48 @@ function Square(props: SquareProps) {
     setDynamicColorPickerCoords(null);
   };
 
+  const [markers, setMarkers] = useState<[number[], number[]]>([[], []]);
+
   useEffect(() => {
     let canvas = canvasRef.current as unknown as HTMLCanvasElement;
     if (canvas != null) {
-      updateCanvas(
+      const markers = updateCanvas(
         canvas,
         palette,
         verticalSpacing,
         horizontalSpacing,
         squareSize,
-        texture
+        texture,
+        mouseOnCanvas
       );
+      setMarkers(markers);
     }
-  }, [palette, verticalSpacing, horizontalSpacing, squareSize, texture]);
+  }, [
+    palette,
+    verticalSpacing,
+    horizontalSpacing,
+    squareSize,
+    texture,
+    mouseOnCanvas,
+  ]);
 
   return (
-    <div className="px-2">
+    <div className="px-2 overflow-hidden">
       <canvas
         ref={canvasRef}
         className="border-solid border-2 drop-shadow-xl w-full"
         width={CANVAS_SIZE}
         height={CANVAS_SIZE}
         onClick={onCanvasClick}
+        onMouseEnter={() => setMouseOnCanvas(true)}
+        onMouseLeave={() => setMouseOnCanvas(false)}
       ></canvas>
       <div
-        className={dynamicColorPickerCoords === null ? "hidden" : "absolute"}
+        className={dynamicColorPickerCoords === null ? 'hidden' : 'absolute'}
         style={{
           left: dynamicColorPickerCoords?.x ?? 0,
           top: dynamicColorPickerCoords?.y ?? 0,
-          transform: "translate(-50%, -50%)",
+          transform: 'translate(-50%, -50%)',
         }}
         onMouseLeave={onMouseLeaveColorPicker}
       >
@@ -193,11 +255,21 @@ function Square(props: SquareProps) {
           }}
         />
       </div>
+      {mouseOnCanvas && (
+        <div className="max-w-full">
+          <p className="text-wrap">
+            Width Markers: {JSON.stringify(markers[0])}
+          </p>
+          <p className="text-wrap">
+            Height Markers: {JSON.stringify(markers[1])}
+          </p>
+        </div>
+      )}
       <Button
         className="bg-gray-400 mt-5 w-full drop-shadow-xl"
         type="primary"
         onClick={() => {
-          const link = document.createElement("a");
+          const link = document.createElement('a');
           const seconds = Math.floor(new Date().getTime() / 1000);
           link.download = `josef_square_generated_${seconds}.png`;
           const canvas = canvasRef.current as unknown as HTMLCanvasElement;
